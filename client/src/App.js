@@ -1,6 +1,5 @@
 import React from 'react';
 import {Route, Switch} from 'react-router-dom';
-import './App.css';
 import NewHotelForm from './NewHotelForm';
 import HotelList from './HotelList';
 import Hotel from './Hotel';
