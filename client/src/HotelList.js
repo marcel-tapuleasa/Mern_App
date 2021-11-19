@@ -52,8 +52,8 @@ function HotelList(props) {
 
     return(
         <div>{hotels.map(hotel => (
-            <li><Link to={`/hotels/${hotel._id}`}/>
-            <Hotel title={hotel.title} location={hotel.location}/>
+            <li><Link to={`/hotels/${hotel._id}`}/><a>
+            <Hotel title={hotel.title} location={hotel.location}/></>
             <Link/></li>
         ))}</div>
         
