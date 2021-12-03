@@ -28,10 +28,24 @@ app.post('/addhotel', async (req, res)=> {
  res.send(hotel);
 });
 
-app.get('hotels/:id', async (req, res) => {
+
+app.put('/hotels/:id/edit', async (req,res)=> {
+const hotel = await Hotel.findByIdAndUpdate(req.params.id, {...req.body});
+res.send(hotel);
+})
+
+app.delete('/hotels/:id', async (req,res)=> {
+    await Hotel.findByIdAndDelete(req.params.id);
+    res.send('Cool, you deleted me!')
+})
+
+app.get('/hotels/:id', async (req, res) => {
     const hotel = await Hotel.findById(req.params.id);
     res.send(hotel)
-})
+});
+
+
+
 
 
 

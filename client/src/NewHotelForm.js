@@ -1,18 +1,18 @@
 import React, {useState} from 'react';
 import axios from 'axios';
+import {useNavigate} from 'react-router-dom';
 
 function NewHotelForm () {
 
 const [title, setTitle] = useState('');
 const [location, setLocation] = useState('');
+let navigate = useNavigate();
 
 const addHotel = (e) => {
     e.preventDefault();
-    axios.post('http://localhost:5000/addhotel', {title: title, location: location})
-    .then(()=> {
-        alert('It worked')})
-    .catch(()=> {
-        alert('Error!!!')})
+    axios.post('http://localhost:5000/addhotel', {title: title, location: location});
+    navigate('/hotels')
+    
 };
 
 return(

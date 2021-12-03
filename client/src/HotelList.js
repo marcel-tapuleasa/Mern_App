@@ -34,28 +34,40 @@
 // FUNCTION COMPONENT
 
 import React, {useState, useEffect} from 'react';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 import Hotel from './Hotel';
 
 function HotelList(props) {
     const[hotels, setHotels] = useState([]);
+    
 
     useEffect(() =>{
         async function getData() {
             const res = await axios.get('http://localhost:5000/hotelslist');
-            setHotels(res.data);    
+            
+            setHotels(res.data);
         }
-        getData();},[hotels]
+        getData();},[]
     )
 
     return(
-        <div>{hotels.map(hotel => (
-            <li><Link to={`/hotels/${hotel._id}`}/><a>
-            <Hotel title={hotel.title} location={hotel.location}/></>
-            <Link/></li>
-        ))}</div>
+        <div><ul>{hotels.map(hotel => (
+            
+            <li key={hotel.id}>
+                <Link to={`${hotel._id}`}>
+                    <Hotel 
+                        title={hotel.title} 
+                        location={hotel.location}
+                        id={hotel._id}
+                         />
+                </Link>
+            </li>
+            
+        ))}</ul>
+        <button><a href='/new'>Add Hotel!</a></button>
+        </div>
         
     )
 }

@@ -1,23 +1,24 @@
 import React from 'react';
-import {Route, Switch} from 'react-router-dom';
+import {Route, Routes} from 'react-router-dom';
 import NewHotelForm from './NewHotelForm';
 import HotelList from './HotelList';
-import Hotel from './Hotel';
+import HotelDetails from './HotelDetails';
 
 function App() {
   return (
     <div className="App">
-      <Switch>
+      <Routes>
+        <Route
+          path='/new'
+          element = {<NewHotelForm/>}></Route>
+        <Route
+          path='hotels'
+          element = { <HotelList/> }></Route>
         <Route 
-        exact path='/hotels/:id'
-        render ={routeProps => <Hotel {...routeProps}/>}/>
-        <Route
-        exact path='/hotels'
-        render = {routeProps => <HotelList {...routeProps}/>}/>
-        <Route
-        exact path='/new'
-        render = {routeProps => <NewHotelForm {...routeProps}/>}/>
-      </Switch>
+          path='hotels/:id'
+          element ={<HotelDetails/>}></Route>
+
+      </Routes>
 
     </div>
   );
