@@ -22,8 +22,8 @@ app.get('/hotelslist', async (req, res)=> {
 })
 
 app.post('/addhotel', async (req, res)=> {
- const {title, location} = req.body;   
- const hotel = new Hotel({title: title, location: location});
+ const {title, location, description, price} = req.body;   
+ const hotel = new Hotel({title: title, location: location, description: description, price: price});
  await hotel.save();
  res.send(hotel);
 });

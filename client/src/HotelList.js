@@ -36,6 +36,7 @@
 import React, {useState, useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import Button from '@mui/material/Button';
 
 import Hotel from './Hotel';
 
@@ -54,19 +55,20 @@ function HotelList(props) {
 
     return(
         <div><ul>{hotels.map(hotel => (
-            
             <li key={hotel.id}>
-                <Link to={`${hotel._id}`}>
                     <Hotel 
                         title={hotel.title} 
                         location={hotel.location}
                         id={hotel._id}
-                         />
-                </Link>
+                        description={hotel.description}
+                        price={hotel.price}
+                    />
             </li>
             
         ))}</ul>
-        <button><a href='/new'>Add Hotel!</a></button>
+        <Button
+            variant="contained"
+            href='/new'>Add Hotel!</Button>
         </div>
         
     )
