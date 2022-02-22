@@ -5,18 +5,26 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
+import { withStyles } from '@mui/styles';
 
 
+const styles = {
+    hotelCard: {
+        boxShadow: '5px 5px 20px -4px #EACDF2',
+        marginTop: '20px',
+        maxWidth: 400,
+        marginBottom: '30px'
+    }
+}
 
 
 function Hotel (props) {
 
-    const {title, location, description, id, price} = props;
+    const {title, location, description, id, classes} = props;
 
     return(
         <div>
-             <Card  variant='outlined' sx={{ maxWidth: 400, mt: 3}}>
-            <li key={id}>
+             <Card className={classes.hotelCard} variant='outlined' >
                 <CardMedia
                     component="img"
                     alt="generic hotel"
@@ -32,11 +40,11 @@ function Hotel (props) {
                 <Typography variant="body2" color="text.secondary">{description}</Typography>
                 </CardContent>
                 <CardActions>
-        <Button href={`/hotels/${id}`} size="small">Details</Button>
-      </CardActions>
-            </li></Card>
+                    <Button href={`/hotels/${id}`} size="small">Details</Button>
+                </CardActions>
+            </Card>
         </div>
     )
 }
 
-export default Hotel;
+export default withStyles(styles)(Hotel);

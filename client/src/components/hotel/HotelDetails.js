@@ -7,25 +7,33 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
+import AddReviewForm from '../review/AddReviewForm';
+import ReviewList from '../review/ReviewList';
 
 
-import useToggle from './hooks/useToggleState';
+
+import useToggle from '../../hooks/useToggleState';
 import EditHotelForm from './EditHotelForm';
 
 
 function HotelDetails (props) {
     const [details, setDetails] = useState([]);
     const[isEditing, toggle] = useToggle(false);
+    const[isUpdated, setIsUpdated] = useState(false)
     let {id} = useParams();
-    let navigate = useNavigate()
-
+    let navigate = useNavigate();
+   
+     
     useEffect(() => {
+        console.log('2nd UseEffect');
         async function getData() {
-            const res = await axios.get(`http://localhost:5000/hotels/${id}`);
-            setDetails(res.data); 
-        }
-        getData();}, [id]
-    )
+            let res = await axios.get(`http://localhost:5000/hotels/${id}`);
+            setDetails(prev => res.data);} 
+            getData();
+            return (() => setIsUpdated(!isUpdated))
+}, [JSON.stringify(details), isUpdated, id])   
+
+  
 
     const removeHotel = async (id) => {
         await axios.delete(`http://localhost:5000/hotels/${id}`, {_id:id})
@@ -33,9 +41,15 @@ function HotelDetails (props) {
 
     }
 
+    const toggleUpdate = () => {
+        setIsUpdated(prev => !prev)
+    }
+ 
+
 
     return(
         <div>
+           
             {isEditing ? <EditHotelForm title={details.title} location={details.location} id={details._id} description={details.description} price={details.price}/> :
             <Card sx={{ maxWidth: 600, mt: 3}}>
                 <CardMedia
@@ -57,8 +71,11 @@ function HotelDetails (props) {
             <Button href='/hotels'>Go Back</Button>
             <Button onClick={toggle}>Edit</Button> 
             <Button color='warning' onClick={()=>removeHotel(id)}>Delete!</Button>
-            </CardActions>
+            </CardActions>            
+            <AddReviewForm toggleUpdate={toggleUpdate} /> 
+            <ReviewList toggleUpdate={toggleUpdate} hotelId= {details._id} reviews={details.reviews}/>
             </Card>}
+
             
         </div>
     )

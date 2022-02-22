@@ -34,15 +34,24 @@
 // FUNCTION COMPONENT
 
 import React, {useState, useEffect} from 'react';
-import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Button from '@mui/material/Button';
-
 import Hotel from './Hotel';
+import { withStyles} from '@mui/styles';
+
+
+const styles = {
+    hotelContainer: {
+        marginTop: '100px',
+        marginLeft: '100px'
+    }
+}
+
+
 
 function HotelList(props) {
     const[hotels, setHotels] = useState([]);
-    
+    const { classes} = props;
 
     useEffect(() =>{
         async function getData() {
@@ -54,18 +63,17 @@ function HotelList(props) {
     )
 
     return(
-        <div><ul>{hotels.map(hotel => (
-            <li key={hotel.id}>
+        <div className={classes.hotelContainer}>{hotels.map(hotel => (
                     <Hotel 
                         title={hotel.title} 
                         location={hotel.location}
                         id={hotel._id}
                         description={hotel.description}
                         price={hotel.price}
+                        key={hotel._id}
                     />
-            </li>
             
-        ))}</ul>
+        ))}
         <Button
             variant="contained"
             href='/new'>Add Hotel!</Button>
@@ -74,4 +82,4 @@ function HotelList(props) {
     )
 }
 
-export default HotelList;
+export default withStyles(styles)(HotelList);

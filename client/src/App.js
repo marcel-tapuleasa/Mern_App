@@ -1,16 +1,16 @@
 import React from 'react';
 import {Route, Routes} from 'react-router-dom';
-import NewHotelForm from './NewHotelForm';
-import HotelList from './HotelList';
-import HotelDetails from './HotelDetails';
+import NewHotelForm from './components/hotel/NewHotelForm';
+import HotelList from './components/hotel/HotelList';
+import HotelDetails from './components/hotel/HotelDetails';
 import Navbar from './Navbar';
 import Footer from './Footer';
-import Container from '@mui/material/Container';
+// import Container from '@mui/material/Container';
 
 function App() {
   return (
-    <div className="App">
-      <Container maxWidth='xl'>
+    <div >
+      {/* <Container maxWidth='xl'> */}
         <Navbar/>
         <Routes>
           <Route
@@ -28,7 +28,7 @@ function App() {
           title="Made By"
           description="Something here to give the footer a purpose!"
       /> */}
-      </Container>
+      {/* </Container> */}
     </div>
   );
 }

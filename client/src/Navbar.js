@@ -12,6 +12,16 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
+import SvgIcon from '@mui/material/SvgIcon';
+
+function HomeIcon(props) {
+  return (
+    <SvgIcon {...props}>
+      <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+    </SvgIcon>
+  );
+}
+
 
 
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -36,7 +46,7 @@ const Navbar = () => {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar  sx={{mb: '20px'}} position="fixed">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
@@ -80,8 +90,7 @@ const Navbar = () => {
               
                 <MenuItem component={Link} to='/'
                 onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">
-                    Home</Typography>
+                  <Typography textAlign="center"> Go Home </Typography>
                 </MenuItem>
                 <MenuItem component={Link} to='/hotels'
                 onClick={handleCloseNavMenu}
@@ -111,7 +120,7 @@ const Navbar = () => {
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
-                Home
+                <HomeIcon color='success' sx={{color: 'white'}}/>
               </Button>
               <Button
                 href='/hotels'
