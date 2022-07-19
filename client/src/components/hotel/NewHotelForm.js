@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -10,8 +10,11 @@ import MonetizationOnTwoToneIcon from '@mui/icons-material/MonetizationOnTwoTone
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { withStyles } from '@mui/styles';
 
+import { UserContext } from '../../context/UserContext';
+
 import { useFormik } from 'formik';
 import * as yup from 'yup';
+
 
 
 
@@ -66,6 +69,8 @@ const validationSchema = yup.object({
 
 function NewHotelForm (props) {
 
+  const [userContext, setUserContext] = useContext(UserContext);
+
 // const [title, setTitle] = useState('');
 // const [location, setLocation] = useState('');
 // const [description, setDescription] = useState('');
@@ -76,7 +81,17 @@ const {classes} = props;
 
 const onSubmit = (values) => {
     const {title, location, description, price} = values;
-    axios.post('http://localhost:5000/addhotel', {title: title, location: location, description: description, price: price});
+
+    const config = {
+      credentials: "include",
+      headers: {
+        "Content-Type": 'application/json',
+        "Authorization": `Bearer: ${userContext.token}`
+      }
+      
+    }
+
+    axios.post('/hotels/new', {title: title, location: location, description: description, price: price}, config);
     navigate('/hotels')
     
 };

@@ -55,7 +55,7 @@ function HotelList(props) {
 
     useEffect(() =>{
         async function getData() {
-            const res = await axios.get('http://localhost:5000/hotelslist');
+            const res = await axios.get('/hotels');
             
             setHotels(res.data);
         }

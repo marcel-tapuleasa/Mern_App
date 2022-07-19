@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import axios from 'axios';
 import {useParams, useNavigate} from 'react-router-dom';
 import Button from '@mui/material/Button';
@@ -6,6 +6,8 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Slider from '@mui/material/Slider';
+
+import { UserContext } from '../../context/UserContext';
 
 import { useFormik} from 'formik';
 import * as yup from 'yup';
@@ -23,12 +25,24 @@ const validationSchema = yup.object({
 
 function AddReviewForm(props) {
     let {id} = useParams();
-    let navigate = useNavigate()
+    let navigate = useNavigate();
+
+    const [userContext, setUserContext] = useContext(UserContext);
 
     const onSubmit = async (values, {resetForm}) => {
        
         const {body, rating, id} = values;
-        await axios.post(`http://localhost:5000/hotels/${id}/reviews`, { body: body, rating: rating})
+
+        const config = {
+            credentials: "include",
+            headers: {
+              "Content-Type": 'application/json',
+              "Authorization": `Bearer: ${userContext.token}`
+            }
+        };
+            
+
+        await axios.post(`/hotels/${id}/reviews`, { body: body, rating: rating}, config)
         console.log('AddReview');
         props.toggleUpdate();
         resetForm({values: ''})

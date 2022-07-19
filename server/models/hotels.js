@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Review = require('./reviews');
+const User = require('./user.js');
 
 const Schema = mongoose.Schema;
 
@@ -9,6 +10,10 @@ location: {type: String},
 description: {type: String, min: 20},
 price: {type: Number, min: 0},
 image: String,
+author: {
+    type: Schema.Types.ObjectId,
+    ref: 'User'
+},
 reviews: [
     {
         type: Schema.Types.ObjectId,

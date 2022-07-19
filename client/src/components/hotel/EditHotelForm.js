@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {useNavigate} from 'react-router-dom';
 import axios from 'axios';
 import Box from '@mui/material/Box';
@@ -8,6 +8,7 @@ import Button from '@mui/material/Button';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { withStyles } from "@mui/styles";
+import { UserContext } from '../../context/UserContext';
 
 const styles = {
 main: {
@@ -57,11 +58,22 @@ function EditHotelForm(props) {
     // const [value, handleChange]= useInputState(props);
     let navigate = useNavigate();
 
-const {title, location, description, price, id, classes} = props;
+    const[userContext, setUserContext] = useContext(UserContext);
+
+const {title, location, description, price, id, classes, author} = props;
 
     const editHotel = (values) => {
         const {id} = values;
-        axios.put(`http://localhost:5000/hotels/${id}/edit`, { title: values.title, location: values.location, description: values.description, price: values.price})
+
+        const config = {
+            headers: {
+              "Content-Type": 'application/json',
+              "Authorization": `Bearer: ${userContext.token}`
+            }
+            
+          }
+
+        axios.put(`/hotels/${id}/edit`, { title: values.title, location: values.location, description: values.description, price: values.price})
         .then(()=> {
             alert('It worked')})
         .catch(()=> {

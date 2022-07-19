@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Link} from 'react-router-dom';
+import {Link, Navigate} from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -13,6 +13,8 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import SvgIcon from '@mui/material/SvgIcon';
+import { UserContext } from './context/UserContext';
+import axios from 'axios';
 
 function HomeIcon(props) {
   return (
@@ -24,11 +26,12 @@ function HomeIcon(props) {
 
 
 
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+// const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const Navbar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [userContext, setUserContext] = React.useContext(UserContext);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -45,7 +48,31 @@ const Navbar = () => {
     setAnchorElUser(null);
   };
 
+  const logout = () => {
+
+    const config = {
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${userContext.token}`
+      }
+    };
+
+    axios.get('/api/auth/logout', config)
+    .then(async response => {
+      setUserContext(oldValues => {
+        return { ...oldValues, token: null }
+      })
+      window.localStorage.setItem("logout", Date.now())
+    })
+  }
+
+  const getUserInfo = () => {
+
+  }
+
   return (
+    <>
     <AppBar  sx={{mb: '20px'}} position="fixed">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
@@ -142,10 +169,11 @@ const Navbar = () => {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar />
               </IconButton>
             </Tooltip>
-            <Menu
+
+            {userContext.token && <Menu
               sx={{ mt: '45px' }}
               id="menu-appbar"
               anchorEl={anchorElUser}
@@ -161,17 +189,24 @@ const Navbar = () => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
+              {/* {settings.map((setting) => (
                 <MenuItem key={setting} onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
-              ))}
-            </Menu>
+              ))} */}
+              
+              <Link to='/aboutme'><MenuItem>Profile</MenuItem></Link>
+              <MenuItem onClick={logout}>Logout</MenuItem>
+              
+            
+            </Menu>}
           </Box>
         </Toolbar>
       </Container>
+      
     </AppBar>
-  );
+  </>)
 };
+
 export default Navbar;
 
