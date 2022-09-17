@@ -19,6 +19,7 @@
     "react-material-ui-form-validator": "^3.0.0",
     "react-router-dom": "^6.0.2",
     "react-scripts": "4.0.3",
+    "react-swipeable-views": "^0.14.0",
     "react-window": "^1.8.6",
     "use-deep-compare-effect": "^1.8.1",
     "web-vitals": "^1.1.2",

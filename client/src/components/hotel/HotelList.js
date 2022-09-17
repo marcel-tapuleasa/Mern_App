@@ -70,6 +70,7 @@ function HotelList(props) {
                         id={hotel._id}
                         description={hotel.description}
                         price={hotel.price}
+                        images={hotel.images}
                         key={hotel._id}
                     />
             

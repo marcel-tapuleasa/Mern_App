@@ -1,9 +1,17 @@
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
+const Hotel = require('../models/hotels');
 const ExpressError = require('../utils/ExpressError');
 const sendEmail = require('../utils/sendEmail');
-const protect = require('../middleware/auth')
+const protect = require('../middleware/auth');
+
+const { cloudinary } = require('../cloudinary');
+const multer = require('multer');
+const { storage } = require('../cloudinary');
+const hotels = require('../models/hotels');
+const { authorize } = require('passport');
+const upload = multer({ storage });
 
 
 exports.register = async (req, res, next) => {
@@ -47,7 +55,7 @@ exports.login = async (req, res, next) => {
 exports.refreshToken = (req, res, next) => {
   const { signedCookies = {} } = req
   const { refreshToken } = signedCookies
-    console.log(`This is the refreshToken in cookie: ${refreshToken}`);
+    // console.log(`This is the refreshToken in cookie: ${refreshToken}`);
 
     if(refreshToken) {
 
@@ -66,8 +74,10 @@ exports.refreshToken = (req, res, next) => {
                         return next(new ExpressError('Unauthorized', 401)) 
                         }
                         else {
-                            const token = user.getSignedJwtToken({_id: userId}); console.log(`This is the generated token ${token}`)
-                            const newRefreshToken = user.getSignedRefreshToken({_id: userId}); console.log(`This is the new refreshToken ${newRefreshToken}`)
+                            const token = user.getSignedJwtToken({_id: userId}); 
+                            // console.log(`This is the generated token ${token}`)
+                            const newRefreshToken = user.getSignedRefreshToken({_id: userId}); 
+                            // console.log(`This is the new refreshToken ${newRefreshToken}`)
                             user.refreshToken[tokenIndex] = { refreshToken: newRefreshToken }
 
                             user.save((err, user) => {
@@ -204,6 +214,26 @@ exports.resetpassword = async (req, res, next) => {
         next(error)
     }
 };
+
+// ==============================================================================================================
+
+exports.uploadAvatar = async (req, res) => {
+    const {id} = req.params;
+    const user = await User.findById(id);
+    user.avatarImage.url = req.file.path;
+    user.avatarImage.filename = req.file.filename;
+    await user.save();
+    res.send('Ok, image uploaded successfully');
+}
+
+
+exports.getUserHotels = async (req, res) => {
+ const {id} = req.params;
+ const userHotels = await Hotel.find({author : id});                          
+ res.send(userHotels);
+};
+
+// ===================================================================================================================
 
 const sendToken = (user, statusCode, res) => {
     const token = user.getSignedJwtToken({ _id: user._id });

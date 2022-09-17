@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -10,10 +10,14 @@ import MonetizationOnTwoToneIcon from '@mui/icons-material/MonetizationOnTwoTone
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { withStyles } from '@mui/styles';
 
+import IconButton from '@mui/material/IconButton';
+import PhotoCamera from '@mui/icons-material/PhotoCamera';
+
 import { UserContext } from '../../context/UserContext';
 
 import { useFormik } from 'formik';
 import * as yup from 'yup';
+import { ImageListItem } from '@mui/material';
 
 
 
@@ -48,7 +52,14 @@ const styles = {
   }
 }
 
-const validationSchema = yup.object({
+    // const FILE_SIZE = 160 * 1024;
+    const SUPPORTED_FORMATS = [
+      "image/jpg",
+      "image/jpeg",
+      "image/png"
+    ];
+
+const validationSchema = yup.object().shape({
     title: yup
       .string('Enter Hotel Name')
       .required('Name is required'),
@@ -62,58 +73,83 @@ const validationSchema = yup.object({
     price: yup
     .number('Enter price')
     .min(0, 'Price should be greater than 0')
-    .required('Price is required')
-
-
+    .required('Price is required'),
+    images: yup.mixed()
+    // .test(
+    //   'fileSize', 
+    //   'File too large',
+    //   value => value && value.size <= FILE_SIZE
+    // )
+    // .test(
+    //   'fileFormat',
+    //   'Unsupported file format',
+    //   value => value && SUPPORTED_FORMATS.includes(value.type)
+    // )
   });
 
 function NewHotelForm (props) {
 
+ 
+
   const [userContext, setUserContext] = useContext(UserContext);
 
-// const [title, setTitle] = useState('');
-// const [location, setLocation] = useState('');
-// const [description, setDescription] = useState('');
-// const [price, setPrice] = useState('');
-let navigate = useNavigate();
-const {classes} = props;
+
+  let navigate = useNavigate();
+  const {classes} = props;
 
 
-const onSubmit = (values) => {
-    const {title, location, description, price} = values;
+  const onSubmit = async (values) => {
+
+    const {title, location, description, price, images} = values;
+
+    
+    const formData = new FormData();
+
+        // formData.append('images', images);
+        images.forEach((image, index) => {formData.append('images', images[index])});
+        formData.append('title', title);
+        formData.append('location', location);
+        formData.append('description', description);
+        formData.append('price', price);
+
+
 
     const config = {
       credentials: "include",
       headers: {
-        "Content-Type": 'application/json',
+        "Content-Type": "multipart/form-data",
         "Authorization": `Bearer: ${userContext.token}`
       }
       
     }
-
-    axios.post('/hotels/new', {title: title, location: location, description: description, price: price}, config);
+    await axios.post('/hotels/new', formData, config );
+  
     navigate('/hotels')
-    
+    // {title: title, location: location, description: description, price: price}
 };
 
-// const onSubmit = (values) => {
-//     alert(JSON.stringify(values))
-// }
+
 
 const formik = useFormik({
-    initialValues: {title: '', location: '', description: '', price: ''},
+    initialValues: {title: '', location: '', description: '', price: '', images:[]},
     validateOnBlur: true,
     validationSchema: validationSchema,
     onSubmit
 });
 
 return(
+  <form
+  encType='multipart/form-data'
+            noValidate
+            onSubmit={formik.handleSubmit}>
+
     <ThemeProvider theme={theme}>
       <CssBaseline />
             <Box
-            component='form'
-            noValidate
-            onSubmit={formik.handleSubmit}
+            // component='form'
+            // encType='multipart/form-data'
+            // noValidate
+            // onSubmit={formik.handleSubmit}
             className={classes.main}
             >
               
@@ -181,6 +217,13 @@ return(
                 helperText={formik.touched.price && formik.errors.price}
             />
             </div>
+
+            <input 
+            type='file'
+            name='images'
+            accept='image/*'
+            multiple
+            onChange={(e) => formik.setFieldValue('images', Array.from(e.target.files))}/>
                 <Button
                     sx={{mt:'32px'}}
                     fullWidth
@@ -189,7 +232,8 @@ return(
                 </Button>
             
         </Box>
-    </ThemeProvider>        
+    </ThemeProvider>  
+    </form>      
 )
 
 }

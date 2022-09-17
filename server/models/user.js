@@ -34,7 +34,11 @@ const UserSchema = new Schema({
     resetPasswordExpire: Date,
     refreshToken: {
         type: [Session],
-      }
+      },
+    avatarImage: {
+        url: String,
+        filename: String
+    },
 });
 
 UserSchema.set("toJSON", {

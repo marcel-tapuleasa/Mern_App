@@ -11,6 +11,7 @@ import { UserContext } from './context/UserContext';
 import axios from 'axios';
 import ResetPassword from './components/user/ResetPassword';
 import Profile from './components/user/Profile';
+import AddPhotos from './components/hotel/AddPhotos';
 
 const NewHotelForm = lazy(() => import('./components/hotel/NewHotelForm'));
 
@@ -46,7 +47,6 @@ function App() {
   useEffect(() => {
     verifyUser();
     console.log('Inside UseEffect for verifyUser!!!');
-    console.log(userContext.token)
  
   }, [verifyUser, userContext.token]);
 
@@ -95,9 +95,12 @@ function App() {
             element ={<HotelDetails/>}></Route> 
           <Route
             path='/new'
-            element = {userContext.token ? <NewHotelForm/> : <SignIn/>}></Route>  
+            element = {userContext.token ? <NewHotelForm/> : <SignIn/>}></Route>
+            <Route
+            path='/addhotelwithphoto'
+            element ={<AddPhotos/>}></Route>     
           <Route
-            path='/aboutme'
+            path='/aboutme/:id'
             element = {userContext.token ? <Profile/> : <SignIn/>}></Route>
           <Route
           path='/register'

@@ -13,6 +13,7 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import SvgIcon from '@mui/material/SvgIcon';
+import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import { UserContext } from './context/UserContext';
 import axios from 'axios';
 
@@ -141,7 +142,7 @@ const Navbar = () => {
           >
             HOTELS
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, my: 1, mx: 1.5 }}>
               <Button
                 href='/'
                 onClick={handleCloseNavMenu}
@@ -169,11 +170,13 @@ const Navbar = () => {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar />
+                <Avatar>
+                  <AddAPhotoIcon/>
+                </Avatar>
               </IconButton>
             </Tooltip>
 
-            {userContext.token && <Menu
+            {userContext.token && userContext.details && <Menu
               sx={{ mt: '45px' }}
               id="menu-appbar"
               anchorEl={anchorElUser}
@@ -195,7 +198,7 @@ const Navbar = () => {
                 </MenuItem>
               ))} */}
               
-              <Link to='/aboutme'><MenuItem>Profile</MenuItem></Link>
+              <Link to={`/aboutme/${userContext.details._id}`}><MenuItem>Profile</MenuItem></Link>
               <MenuItem onClick={logout}>Logout</MenuItem>
               
             

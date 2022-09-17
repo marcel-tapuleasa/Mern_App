@@ -50,7 +50,7 @@ function AddReviewForm(props) {
     }
     
     const formik = useFormik({
-        initialValues: {body: '', rating: '', id:id},
+        initialValues: {body: '', rating: 1, id:id},
         validateOnBlur: true,
         validationSchema: validationSchema,
         onSubmit

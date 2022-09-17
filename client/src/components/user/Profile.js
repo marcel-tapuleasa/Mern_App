@@ -2,6 +2,11 @@ import React, {useContext, useCallback, useEffect} from 'react';
 import { UserContext } from '../../context/UserContext';
 import axios from 'axios';
 import  Loader from  './Loader';
+import CssBaseline from '@mui/material/CssBaseline';
+import { Container, Box, Alert, Typography, Grid, Divider } from '@mui/material';
+
+import UserPhoto from './UserPhoto';
+import UserDashboard from './UserDashboard';
 
 
 function Profile() {
@@ -34,11 +39,25 @@ function Profile() {
     // }, [userContext.details, fetchUserDetails]);
 
 
-    return  userContext.details === null ? ('Error loading user details!') : !userContext.details ? (<Loader/>) : 
-        (<div style = {{marginTop: 300, backgroundColor: 'pink', textAlign: 'center'}}>
-        <p>Welcome, {userContext.details.username}</p>
-        </div>
-        )
+    return  userContext.details ===  null ? ('Error loading user details!') : !userContext.details ? (<Loader/>) : 
+    
+          
+            
+                // <div >
+                <Container maxWidth="lg" sx={{mt: 4, mb: 4}}>
+                    <Box sx={{ width: '100%', marginTop: '200px', hight: '300px', backgroundColor: '#19e0e3'}}>
+                    <Typography variant='h5' style={{marginTop: '300px', backgroundColor: '#19e0e3', textAlign: 'center', color:'#941940', hight: '300px'}}>
+                Welcome, {userContext.details.username}!</Typography></Box>
+                <Grid container spacing={20}>
+                    <UserPhoto/>
+                    <UserDashboard/>
+                </Grid>
+
+                </Container>
+            {/* </div> */}
+       
+        
+        
 };
 
 export default Profile;

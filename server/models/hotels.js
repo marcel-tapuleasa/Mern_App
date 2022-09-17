@@ -4,12 +4,17 @@ const User = require('./user.js');
 
 const Schema = mongoose.Schema;
 
+const ImageSchema = new Schema({
+    url: String,
+    filename: String
+});
+
 const HotelSchema = new Schema({
 title: {type: String},
 location: {type: String},
 description: {type: String, min: 20},
 price: {type: Number, min: 0},
-image: String,
+images: [ImageSchema],
 author: {
     type: Schema.Types.ObjectId,
     ref: 'User'
