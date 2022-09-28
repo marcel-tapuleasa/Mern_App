@@ -43,7 +43,7 @@ function AddReviewForm(props) {
             
 
         await axios.post(`/hotels/${id}/reviews`, { body: body, rating: rating}, config)
-        console.log('AddReview');
+        // console.log('AddReview');
         props.toggleUpdate();
         resetForm({values: ''})
         navigate(`/hotels/${id}`)

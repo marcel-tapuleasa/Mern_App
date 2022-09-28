@@ -131,7 +131,7 @@ function ManagePhotos(props) {
           updatedList.splice(checkedImagestoDelete.indexOf(event.target.value), 1);
         }
         setCheckedImagestoDelete(updatedList);
-        console.log(checkedImagestoDelete)
+        // console.log(checkedImagestoDelete)
       }
 
     return(

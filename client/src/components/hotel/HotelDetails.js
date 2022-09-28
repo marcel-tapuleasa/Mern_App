@@ -9,9 +9,13 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
+import Grid from '@mui/material/Grid';
+
 import AddReviewForm from '../review/AddReviewForm';
 import ReviewList from '../review/ReviewList';
 import { UserContext } from '../../context/UserContext';
+
+import MapBoxHotel from './MapBoxHotel';
 
 import MobileStepper from '@mui/material/MobileStepper';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
@@ -29,6 +33,8 @@ const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
 
 
+
+
 function HotelDetails (props) {
     const theme = useTheme();
 
@@ -37,7 +43,7 @@ function HotelDetails (props) {
     const [author, setAuthor] = useState();
     const[isEditing, toggle] = useToggle(false);
     const[isUpdated, setIsUpdated] = useState(false);
-    const[isEditingPhotos, setIsEditingPhotos] = useState(false)
+    const[isEditingPhotos, setIsEditingPhotos] = useState(false);
 
     const [activeStep, setActiveStep] = useState(0);
     const maxSteps = details.images ? details.images.length : 0;
@@ -56,6 +62,7 @@ function HotelDetails (props) {
 
 
     const [userContext, setUserContext] = useContext(UserContext);
+
     let {id} = useParams();
     let navigate = useNavigate();
 
@@ -73,11 +80,12 @@ function HotelDetails (props) {
                 
               }
             let res = await axios.get(`/hotels/${id}`, {config});
-            await setDetails(prev => res.data);
+            setDetails(prev => res.data);
             setAuthor(res.data.author.username);
         
     } 
-            getData(); console.log(`This is from 1st useEffect: ${JSON.stringify(details.images)}`);
+            getData(); 
+            // console.log(`This is from 1st useEffect: ${JSON.stringify(details.images)}`);
 
            
             return (() => setIsUpdated(!isUpdated))
@@ -108,7 +116,8 @@ function HotelDetails (props) {
 
     return(
         <div>
-           
+          <Grid container spacing={2}>
+           <Grid item sm={8}>
             {isEditing ? <EditHotelForm 
               author={author} 
               title={details.title} 
@@ -127,7 +136,6 @@ function HotelDetails (props) {
                     price={details.price} 
                     images={details.images}/> : 
             <Card sx={{ maxWidth: 600, mt: 15}}>
-
               <AutoPlaySwipeableViews
                 axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
                 index={activeStep}
@@ -135,7 +143,7 @@ function HotelDetails (props) {
                 enableMouseEvents
                 >
                     {details && details.images && details.images.map((i, index) => 
-                    <div> 
+                    <div key ={i._id}>
                         {Math.abs(activeStep - index) <= 2 ? (
                             <CardMedia
                             component="img"
@@ -211,8 +219,9 @@ function HotelDetails (props) {
              
             <ReviewList toggleUpdate={toggleUpdate} hotelId= {details._id} reviews={details.reviews}/>
             </Card>)}
-
-            
+            </Grid>
+            <Grid item sm={4} sx={{marginTop: 15}}>{ details._id && <MapBoxHotel title={details.title} description={details.description} location={details.location} hotelId={details._id}/>}</Grid>
+         </Grid>  
         </div>
     )
 }

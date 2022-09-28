@@ -28,12 +28,15 @@ router.get('/', catchAsync(hotels.index))
 router.post('/new', upload.array('images'), validateHotel, protect, catchAsync(hotels.createHotel))
  
  
- router.get('/:id', catchAsync(hotels.showHotel));
+router.get('/:id', catchAsync(hotels.showHotel));
 
- router.put('/:id/edit', protect, isAuthor, validateHotel,  catchAsync(hotels.editHotel));
+router.get('/geometry/:id', hotels.getGeoData);
+
+
+router.put('/:id/edit', protect, isAuthor, validateHotel,  catchAsync(hotels.editHotel));
 
  
- router.put('/:id/addphotos', upload.array('images'), protect, isAuthor, validateHotel,  catchAsync(hotels.addPhotos));
+router.put('/:id/addphotos', upload.array('images'), protect, isAuthor, validateHotel,  catchAsync(hotels.addPhotos));
 
  
  

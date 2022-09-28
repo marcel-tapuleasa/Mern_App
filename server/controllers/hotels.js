@@ -2,6 +2,16 @@ const Hotel = require('../models/hotels');
 const { cloudinary } = require('../cloudinary');
 const multer = require('multer');
 
+const mapBoxToken = process.env.MAPBOX_TOKEN;
+const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
+const geocoder = mbxGeocoding({ accessToken: mapBoxToken });
+
+
+
+
+
+
+
 
 
 
@@ -11,7 +21,12 @@ module.exports.index = async (req, res)=> {
     };
 
 module.exports.createHotel = async (req, res, next)=> { 
-    const hotel = await new Hotel({...req.body});
+    const geoData = await geocoder.forwardGeocode({
+        query: req.body.location,
+        limit: 1
+    }).send();
+    const hotel = new Hotel({...req.body});
+    hotel.geometry = geoData.body.features[0].geometry
     hotel.images = req.files.map(f => ({ url: f.path, filename: f.filename }))
     // hotel.images = {url: req.file.path, filename: req.file.filename}
     hotel.author = req.user._id;
@@ -29,13 +44,23 @@ module.exports.showHotel = async (req, res) => {
     res.send(hotel)
     };
 
+ module.exports.getGeoData = async (req, res) => {
+    const hotel = await Hotel.findById(req.params.id);
+    res.send(hotel.geometry)
+ }   
+
 module.exports.editHotel = async (req,res)=> {
     const hotel = await Hotel.findByIdAndUpdate(req.params.id, {...req.body});
     // if(req.files) {
     // const imgs = req.files.map(f => ({ url: f.path, filename: f.filename }));
     // hotel.images.push(...imgs);
     // };
-    // console.log(JSON.stringify(req.body));   
+    // console.log(JSON.stringify(req.body));  
+    const geoData = await geocoder.forwardGeocode({
+        query: req.body.location,
+        limit: 1
+    }).send(); 
+    hotel.geometry = geoData.body.features[0].geometry
     await hotel.save();
     res.send(hotel);
     };

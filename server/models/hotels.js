@@ -9,8 +9,22 @@ const ImageSchema = new Schema({
     filename: String
 });
 
+const opts = { toJSON: { virtuals: true } };
+
+
 const HotelSchema = new Schema({
 title: {type: String},
+geometry: {
+    type: {
+        type: String,
+        enum: ['Point'],
+        required: true
+    },
+    coordinates: {
+        type: [Number],
+        required: true
+    }
+},
 location: {type: String},
 description: {type: String, min: 20},
 price: {type: Number, min: 0},
@@ -25,6 +39,11 @@ reviews: [
         ref: 'Review'
     }
 ]
+}, opts);
+
+HotelSchema.virtual('properties.popUpMarkup').get(function () {
+    return `<strong><a href='/hotels/${this._id}'>${this.title}</a></strong>
+    <p>${this.description.substring(0,25)}...</p>`
 })
 
 HotelSchema.post('findOneAndDelete', async function (doc) {

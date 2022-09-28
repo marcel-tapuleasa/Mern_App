@@ -19,7 +19,7 @@ function Review (props) {
     useEffect(() => {
         async function getReviewDetails() {
             let res = await axios.get(`/hotels/${hotelId}/reviews/${props.review._id}/reviewDetails`);
-            console.log(res);
+            // console.log('UseEffect Reviews Details!!!');
             setReviewAuthor(res.data.author.username);
         };
         getReviewDetails();
@@ -41,7 +41,7 @@ function Review (props) {
     }
 
     const {review} = props;
-    console.log(review);
+    // console.log(review);
     return(
         <div>
             <Card>
