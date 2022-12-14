@@ -21,7 +21,9 @@ const validateHotel = (req, res, next) => {
 };
 
 
-router.get('/', catchAsync(hotels.index))
+router.get('/', catchAsync(hotels.index));
+
+router.get('/search', catchAsync(hotels.showHotelsbySearch));
  
 //  router.post('/new', validateHotel, protect, catchAsync(hotels.createHotel));
 

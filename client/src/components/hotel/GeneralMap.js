@@ -9,7 +9,6 @@ const GeneralMap = () => {
   // const [hotels, setHotels] = useState();
 
 
-
     
     const generalMapContainer = useRef(null);
     const map = useRef(null);
@@ -174,7 +173,7 @@ useEffect(() => {
 
 
   return (
-    <div ref={generalMapContainer} style={{marginTop: '100px', height: '500px', width: '100%', zIndex: 1}}></div>
+    <div ref={generalMapContainer} style={{marginTop: '100px', height: '500px', width: '100%', zIndex: 1, borderRadius: '0.5rem', boxShadow: '10px 10px 20px -10px #EACDF2'}}></div>
   )
 }
 

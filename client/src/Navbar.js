@@ -1,5 +1,7 @@
 import * as React from 'react';
-import {Link, Navigate} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
+import { styled } from '@mui/material/styles';
+
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -10,20 +12,26 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
+import Tooltip, {tooltipClasses} from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import SvgIcon from '@mui/material/SvgIcon';
-import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import { UserContext } from './context/UserContext';
 import axios from 'axios';
+import HomeIcon from '@mui/icons-material/Home';
+import HotelIcon from '@mui/icons-material/Hotel';
+import AddCircleOutlinedIcon from '@mui/icons-material/AddCircleOutlined';
 
-function HomeIcon(props) {
-  return (
-    <SvgIcon {...props}>
-      <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
-    </SvgIcon>
-  );
-}
+
+const LightTooltip = styled(({ className, ...props }) => (
+  <Tooltip {...props} classes={{ popper: className }} />
+))(({ theme }) => ({
+  [`& .${tooltipClasses.tooltip}`]: {
+    backgroundColor: theme.palette.common.white,
+    color: 'rgba(0, 0, 0, 0.87)',
+    boxShadow: theme.shadows[1],
+    fontSize: 12,
+  },
+}));
+
 
 
 
@@ -33,6 +41,8 @@ const Navbar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [userContext, setUserContext] = React.useContext(UserContext);
+
+  const navigate = useNavigate();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -62,28 +72,39 @@ const Navbar = () => {
     axios.get('/api/auth/logout', config)
     .then(async response => {
       setUserContext(oldValues => {
-        return { ...oldValues, token: null }
+        return { ...oldValues, token: null, details: {} }
       })
-      window.localStorage.setItem("logout", Date.now())
+      window.localStorage.setItem("logout", Date.now());
+      navigate('/login')
     })
-  }
+  };
 
-  const getUserInfo = () => {
 
-  }
 
   return (
     <>
-    <AppBar  sx={{mb: '20px'}} position="fixed">
+    <AppBar  sx={{mb: '20px',
+                 backgroundColor: 'rgba(255,255,255,0.8)', 
+                 boxShadow:'none', 
+                 backdropFilter:'blur(8px)', 
+                 zIndex:'1100',
+                 borderStyle: 'solid',
+                 borderWidth: 0,
+                 borderButtom: 'thin',
+                 borderColor: '#E7EBF0',
+                 color: '#2D3843'
+                }} 
+                 position='fixed' >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
             variant="h6"
             noWrap
             component="div"
+            color='black'
             sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
           >
-            HOTELS
+            HotelZone
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -118,7 +139,7 @@ const Navbar = () => {
               
                 <MenuItem component={Link} to='/'
                 onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center"> Go Home </Typography>
+                  <Typography textAlign="center">Home </Typography>
                 </MenuItem>
                 <MenuItem component={Link} to='/hotels'
                 onClick={handleCloseNavMenu}
@@ -140,27 +161,41 @@ const Navbar = () => {
             component="div"
             sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
           >
-            HOTELS
+            Hotels
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, my: 1, mx: 1.5 }}>
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, justifyContent:'flex-start', my: 1, mx: '3rem' }}>
+            <LightTooltip title='Homepage'>
               <Button
                 href='/'
                 onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
+                sx={{ my: 1.5, color: 'white', display: 'block' }}
               >
-                <HomeIcon color='success' sx={{color: 'white'}}/>
+                <HomeIcon sx={{ color: '#E91E63'}}/>
               </Button>
+            </LightTooltip>
               <Button
                 href='/hotels'
                 onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
+                startIcon={<HotelIcon/>}
+                sx={{ p: '2', 
+                      display: 'inline-flex', 
+                      color: 'black', 
+                      textTransform: 'capitalize',
+                      marginLeft: '5%'}}
               >
                 Hotels
               </Button>
               <Button
                 href='/new'
                 onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
+                startIcon={<AddCircleOutlinedIcon/>}
+                sx={{ 
+                  p:'2', 
+                  color: 'black', 
+                  display: 'inline-flex', 
+                  textTransform:'capitalize',
+                  marginLeft:'2%'
+                 }}
               >
                 Add Hotel
               </Button>
@@ -168,13 +203,17 @@ const Navbar = () => {
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
+            <Tooltip arrow title={userContext.token ? 'View Account' : 'Login'}>
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar src={userContext.details ? userContext.details.avatarImage.url : '' } sx={{ width: 56, height: 56 }}/>
+                <Avatar 
+                src=
+                {userContext.details && userContext.details.avatarImage ? userContext.details.avatarImage.url : 
+                  '' }
+                sx={{ width: 56, height: 56, border: '2px solid #F06292', boxShadow: '3px 3px 5px -3px #BDBDBD' }}/>
               </IconButton>
             </Tooltip>
 
-            {userContext.token && userContext.details && <Menu
+            <Menu
               sx={{ mt: '45px' }}
               id="menu-appbar"
               anchorEl={anchorElUser}
@@ -188,19 +227,25 @@ const Navbar = () => {
                 horizontal: 'right',
               }}
               open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
+              onClick={handleCloseUserMenu}
             >
               {/* {settings.map((setting) => (
                 <MenuItem key={setting} onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))} */}
-              
-              <Link to={`/aboutme/${userContext.details._id}`}><MenuItem>Profile</MenuItem></Link>
+             {userContext.token && userContext.token !==null && userContext.details  ?
+               <div>
+               <Link  underline='none' to={`/aboutme/${userContext.details._id}`}><MenuItem>Profile</MenuItem></Link>
               <MenuItem onClick={logout}>Logout</MenuItem>
+              </div> 
+              :
+              <Link to='/login'><MenuItem>Login</MenuItem></Link>}
+            
+             
               
             
-            </Menu>}
+            </Menu>
           </Box>
         </Toolbar>
       </Container>

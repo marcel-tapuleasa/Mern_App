@@ -223,7 +223,7 @@ exports.uploadAvatar = async (req, res) => {
     user.avatarImage.url = req.file.path;
     user.avatarImage.filename = req.file.filename;
     await user.save();
-    res.send('Ok, image uploaded successfully');
+    res.send(user);
 }
 
 
@@ -248,7 +248,7 @@ const sendToken = (user, statusCode, res) => {
     })
     res.status(statusCode).json({
         succes: true,
-        token
+        token, user
     })
 }
 

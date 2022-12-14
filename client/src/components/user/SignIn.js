@@ -51,7 +51,7 @@ export default function SignIn() {
       const { data } = await axios.post('/api/auth/login', {email, password});
 
       setUserContext(oldValues => {
-        return { ...oldValues, token: data.token}
+        return { ...oldValues, token: data.token, details: data.user}
       })
 
       // localStorage.setItem('authToken', data.token)

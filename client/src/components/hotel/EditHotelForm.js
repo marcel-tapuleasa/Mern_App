@@ -1,31 +1,42 @@
-import React, { useContext, useState } from "react";
+import React, { useContext} from "react";
 import {useNavigate} from 'react-router-dom';
 import axios from 'axios';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import Grid from '@mui/material/Grid';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { withStyles } from "@mui/styles";
+import { withStyles} from "@mui/styles";
 import { UserContext } from '../../context/UserContext';
-import CardMedia from '@mui/material/CardMedia';
 
 
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
+import Tooltip from "@mui/material/Tooltip";
 
+import { toast } from 'react-toastify';
+
+// const theme = createTheme({
+//   [theme.breakpoints.down('md')]: {
+//     width: '90%'
+//   },
+//   [theme.breakpoints.up('md')]: {
+//     width: '50%'
+//   }
+// })
 
 const styles = {
 main: {
-    margin: '7% auto',
+    // margin: '12rem auto',
     padding: '2px',
-    width: '40%',
+    // width:'40%',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
     color: 'rgb(6, 122, 184)',
-    borderRadius: 3,
+    // borderRadius: '7%',
     backgroundColor: 'white',
     boxShadow: '5px 5px 20px -4px #EACDF2'
   },
@@ -63,7 +74,7 @@ function EditHotelForm(props) {
 
     const[userContext, setUserContext] = useContext(UserContext);
 
-const {title, location, description, price, id, classes, author, images} = props;
+const {title, location, description, price, id, classes, toggle} = props;
 
 
     const editHotel = (values) => {
@@ -88,13 +99,24 @@ const {title, location, description, price, id, classes, author, images} = props
             }
             
           }
-// { title: values.title, location: values.location, description: values.description, price: values.price}
-        axios.put(`/hotels/${id}/edit`, { title: values.title, location: values.location, description: values.description, price: values.price}, config)
-        .then(()=> {
-            alert('It worked')})
-        .catch(()=> {
-            alert('Error!!!')})
-            navigate('/hotels')
+
+        const promise = axios.put(`/hotels/${id}/edit`, 
+                                      { title: values.title, 
+                                        location: values.location, 
+                                        description: values.description, 
+                                        price: values.price}, config)
+        toast.promise(promise, {
+          pending: {
+            render: 'Updating details...',
+            // disable the delay for pending state
+            delay: undefined
+          },
+          success: {render: 'Hotel details updated successfully!', delay: 500},
+          error: 'Something went wrong.',
+        }, {
+        delay: 500
+        });
+        setTimeout(() => {toggle()}, 2000 );   
     };
 
     const formik = useFormik({
@@ -104,45 +126,34 @@ const {title, location, description, price, id, classes, author, images} = props
         onSubmit: editHotel
     }); 
 
-
-    // const handleCheckBoxchange = (event) => {
-    //   let updatedList = [...checkedImagestoDelete];
-    //   if (event.target.checked) {
-    //     updatedList = [...checkedImagestoDelete, event.target.value];
-    //   } else {
-    //     updatedList.splice(checkedImagestoDelete.indexOf(event.target.value), 1);
-    //   }
-    //   setCheckedImagestoDelete(updatedList);
-    //   console.log(checkedImagestoDelete)
-    // }
-
-    // const deleteImages = async (values) => {
-    //   const { id } = values;
-
-    //   const config = {
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //       "Authorization": `Bearer: ${userContext.token}` 
-    //     }
-    //   };
-      
-    //   await axios.delete(`/hotels/${id}/deletephotos`, checkedImagestoDelete, config)
-    //   .then(()=> {
-    //     alert('It worked')})
-    // .catch(()=> {
-    //     alert('Error!!!')})
-    // }
-    
     return(
-      // <form
-      // encType='multipart/form-data'
-      // noValidate
-      // onSubmit={formik.handleSubmit}>
-            <Box 
+            <Box
             component='form'
             noValidate
             onSubmit={formik.handleSubmit}
-             className={classes.main}>
+            sx={{
+              width: {sm:'80%', md:'50%', lg: '40%', xl:'30%'}, 
+              margin: {xs: '5rem auto', sm: '7rem auto', lg: '12rem auto', xl:'12rem auto'},
+              borderRadius: {xs: '4%', lg:'7%'}
+          }}
+             className={classes.main}
+             >
+              <div style={{display:'flex', flexDirection:'column', alignItems: 'flex-end', width: '100%'}}>
+              <Tooltip title='Close'> 
+                <IconButton
+                  aria-label="close"
+                  onClick={toggle}
+                  sx={{
+                    position: 'relative',
+                    right: 8,
+                    top: 8,
+                   
+                  }}>
+                  <CloseIcon  sx={{margin: '10%', color:'#F44336', fontSize:'2rem'}}/>
+                </IconButton> 
+              </Tooltip>
+              </div>
+
                 <Typography className={classes.sloganText}>Update Your Property!</Typography>
                 <TextField sx={{mt: 3, width: '95%'}}
                     label='Change Hotel Name' 
@@ -186,51 +197,10 @@ const {title, location, description, price, id, classes, author, images} = props
                     shrink: true,
                     }}
                 />
-
-                 {/* <Typography className={classes.sloganText}>Select Photos you want to delete!</Typography>
-                 <Box 
-                 sx={{flexGrow: 1,
-                marginTop: '40px',
-                marginBottom: '40px',
-                padding: '10px' }}>
-                    <Grid container spacing={2}>
-                      {images?.map((i, index) => (
-                        <Grid key={i._id} item md={6} lg={4}>
-                          
-                          <CardMedia component="img"
-                            alt="hotel photos"
-                            image={i.url}
-                            key={i._id}
-                            sx={{
-                              height: 150,
-                              display: 'flex',
-                              maxWidth: 600,
-                              overflow: 'hidden',
-                              width: '100%',
-                              aspectRatio: '1/1'
-                            }}
-                            />
-                                <Checkbox onChange={handleCheckBoxchange} value={i.filename} icon={<DeleteOutlinedIcon/>}/>
-                    
-                        </Grid>))}
-                    </Grid>
-                    <Button
-                    variant='contained'
-                    onClick={deleteImages}
-                    >Delete Photos!</Button>
-                 </Box>
-
-               <input 
-                  type='file'
-                  name='images'
-                  accept='image/*'
-                  multiple
-                  onChange={(e) => formik.setFieldValue('images', Array.from(e.target.files))}/> */}
                   
               <Button sx={{mt:5, mb: 5, width:'90%'}} variant='contained' type='submit'>Update!</Button>
             </Box>
-      // </form>
-            
+                
     )
 }
 

@@ -1,16 +1,28 @@
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import TextField from "@mui/material/TextField";
+import Button from '@mui/material/Button';
+import Tooltip from "@mui/material/Tooltip";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from '@mui/icons-material/Close';
+import { toast } from 'react-toastify';
 
 import "./ResetPassword.css";
 
 const ResetPassword = ({ history, match }) => {
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
+ 
 
   let {resetToken} = useParams();
+  let navigate = useNavigate();
+
+  const closeResetPassword = () => {
+    navigate('/login');
+  }
 
   const resetPasswordHandler = async (e) => {
     e.preventDefault();
@@ -21,8 +33,8 @@ const ResetPassword = ({ history, match }) => {
       },
     };
 
-    try {
-      const { data } = await axios.put(
+    
+      const resetPromise = axios.put(
         `/api/auth/resetpassword/${resetToken}`,
         {
           password,
@@ -30,32 +42,55 @@ const ResetPassword = ({ history, match }) => {
         config
       );
 
-      console.log(data);
-      setSuccess(data.data);
-    } catch (error) {
-      setError(error);
+
+    await toast.promise(resetPromise, {
+      pending: {
+       render: 'Updating Password...',
+       // disable the delay for pending state
+       delay: undefined
+      },
+      success: {render:'Password succesfully updated!', delay: 2000},
+      error: 'Something went wrong.',
+    }, {
+    delay: 500
+    });
+      setPassword("");
       setTimeout(() => {
-        setError("");
-      }, 5000);
+        navigate('/login');
+      }, 3000);
     }
-  };
+
 
   return (
-    <div className="resetpassword-screen">
+    <Box className="resetpassword-screen">
       <form
         onSubmit={resetPasswordHandler}
-        className="resetpassword-screen__form"
+         style={{ width: '380px',
+          padding: '1.5rem',
+          backgroundColor: '#fff',
+          borderRadius:'2%',
+          boxShadow: '2px 2px 30px 6px rgba(5, 16, 27, 0.1)'
+        }}
       >
-        <h3 className="resetpassword-screen__title">Forgot Password</h3>
-        {error && <span className="error-message">{error} </span>}
-        {success && (
-          <span className="success-message">
-            {success} <Link to="/login">Login</Link>
-          </span>
-        )}
-        <div className="form-group">
-          <label htmlFor="password">New Password:</label>
-          <input
+        <div style={{display:'flex', flexDirection:'column', alignItems: 'flex-end', width: '100%'}}>
+              <Tooltip title='Close'> 
+                <IconButton
+                  aria-label="close"
+                  onClick={closeResetPassword}
+                  sx={{
+                    position: 'relative',
+                    right: 8,
+                    top: 8,
+                   
+                  }}>
+                  <CloseIcon  sx={{margin: '5%', color:'#F44336', fontSize:'1rem'}}/>
+                </IconButton> 
+              </Tooltip>
+              </div>
+        <Typography variant='h6' sx={{textAlign:'center', marginBottom: '1rem', color:'#546E7A'}}>Update Password</Typography>
+        
+        <Box>
+          <TextField
             type="password"
             required
             id="password"
@@ -63,13 +98,23 @@ const ResetPassword = ({ history, match }) => {
             autoComplete="true"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            sx={{width: '100%', marginY:'5%'}}
           />
-        </div>
-        <button type="submit" className="btn btn-primary">
+          {/* <input
+            type="password"
+            required
+            id="password"
+            placeholder="Enter new password"
+            autoComplete="true"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          /> */}
+        </Box>
+        <Button type="submit">
           Reset Password
-        </button>
+        </Button>
       </form>
-    </div>
+    </Box>
   );
 };
 

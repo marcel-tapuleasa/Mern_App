@@ -44,6 +44,14 @@ reviews: [
 HotelSchema.virtual('properties.popUpMarkup').get(function () {
     return `<strong><a href='/hotels/${this._id}'>${this.title}</a></strong>
     <p>${this.description.substring(0,25)}...</p>`
+});
+
+HotelSchema.virtual('averageRating').get(function() {
+    let ratings = [];
+    this.reviews?.forEach((review) => ratings.push(review.rating));
+    if(ratings.length > 0) {
+    return (ratings.reduce((a,b)=>a+b)/ratings.length).toFixed(2);}
+    return;
 })
 
 HotelSchema.post('findOneAndDelete', async function (doc) {

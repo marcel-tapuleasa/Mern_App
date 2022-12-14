@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useContext} from 'react';
 import axios from 'axios';
 import {useParams, useNavigate} from 'react-router-dom';
-import { useTheme } from '@mui/material/styles';
+import { useTheme, styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import Link from '@mui/material/Link';
@@ -10,6 +10,13 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
+import Container from '@mui/material/Container';
+import IconButton  from '@mui/material/IconButton';
+import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
+import EditIcon from '@mui/icons-material/Edit';
+import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import Tooltip , {tooltipClasses} from '@mui/material/Tooltip';
 
 import AddReviewForm from '../review/AddReviewForm';
 import ReviewList from '../review/ReviewList';
@@ -20,17 +27,29 @@ import MapBoxHotel from './MapBoxHotel';
 import MobileStepper from '@mui/material/MobileStepper';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
+import PlaceIcon from '@mui/icons-material/Place';
+import EuroSymbolIcon from '@mui/icons-material/EuroSymbol';
 import SwipeableViews from 'react-swipeable-views';
 import { autoPlay } from 'react-swipeable-views-utils';
 import useToggle from '../../hooks/useToggleState';
 import EditHotelForm from './EditHotelForm';
 import ManagePhotos from './ManagePhotos';
+
+import { toast } from 'react-toastify';
+
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
 
-
-
-
+const LightTooltip = styled(({ className, ...props }) => (
+  <Tooltip {...props} classes={{ popper: className }} />
+))(({ theme }) => ({
+  [`& .${tooltipClasses.tooltip}`]: {
+    backgroundColor: theme.palette.common.white,
+    color: 'rgba(0, 0, 0, 0.87)',
+    boxShadow: theme.shadows[1],
+    fontSize: 11,
+  },
+}));
 
 
 
@@ -44,6 +63,7 @@ function HotelDetails (props) {
     const[isEditing, toggle] = useToggle(false);
     const[isUpdated, setIsUpdated] = useState(false);
     const[isEditingPhotos, setIsEditingPhotos] = useState(false);
+
 
     const [activeStep, setActiveStep] = useState(0);
     const maxSteps = details.images ? details.images.length : 0;
@@ -89,7 +109,7 @@ function HotelDetails (props) {
 
            
             return (() => setIsUpdated(!isUpdated))
-}, [JSON.stringify(details), id, isUpdated])   
+}, [JSON.stringify(details), id, isUpdated, isEditing, isEditingPhotos])   
   
 
     const removeHotel = async (id) => {
@@ -101,8 +121,19 @@ function HotelDetails (props) {
             }
             
           }
-        await axios.delete(`/hotels/${id}`, {_id:id}, config)
-        navigate('/hotels')
+       const promise =  axios.delete(`/hotels/${id}`, {_id:id}, config);
+       toast.promise(promise, {
+        pending: {
+          render: 'Deleting your hotel...',
+          // disable the delay for pending state
+          delay: undefined
+        },
+        success: {render: 'Hotel deleted successfully!', delay: 500},
+        error: 'Something went wrong.',
+      }, {
+      delay: 500
+      })
+        setTimeout(() => {navigate('/hotels')}, 2000)
     }
 
     const toggleUpdate = () => {
@@ -115,17 +146,17 @@ function HotelDetails (props) {
  
 
     return(
-        <div>
-          <Grid container spacing={2}>
-           <Grid item sm={8}>
-            {isEditing ? <EditHotelForm 
+        <>         
+         {isEditing ? 
+            <EditHotelForm 
               author={author} 
               title={details.title} 
               location={details.location} 
               id={details._id} 
               description={details.description} 
               price={details.price} 
-              images={details.images}/> : (
+              images={details.images}
+              toggle={toggle}/> : 
                 isEditingPhotos ? 
                 <ManagePhotos
                     author={author} 
@@ -134,8 +165,15 @@ function HotelDetails (props) {
                     id={details._id} 
                     description={details.description} 
                     price={details.price} 
-                    images={details.images}/> : 
-            <Card sx={{ maxWidth: 600, mt: 15}}>
+                    images={details.images}
+                    toggle={toggleEditPhotos}/> : 
+          
+        (<Container>
+                      <>
+          <Grid container spacing={6} >
+         
+           <Grid item md={6} sx={{margin: '0 auto'}}>
+            <Card sx={{ maxWidth: 600, marginTop: '7rem', borderRadius: '0.5rem', boxShadow: '10px 10px 20px -10px #EACDF2, -10px 0 20px -10px #EACDF2' }}>
               <AutoPlaySwipeableViews
                 axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
                 index={activeStep}
@@ -195,34 +233,86 @@ function HotelDetails (props) {
                
                 <CardContent>
                     <div>
-                        <Typography gutterBottom variant="h3">{details.title}</Typography>
-                        <Typography variant="h5" color="primary">{details.location}</Typography>
-                       <Link href={`/aboutme/${details?.author?._id}`}><Typography variant="h5" >Submitted by: {author}</Typography></Link> 
+                      <div style={{display: 'flex', justifyContent:'space-between'}}>
+                        <div>
+                        <Typography fontWeight='600' variant="h4">{details.title}</Typography>
+                        <Typography color='#F9A825' variant='subtitle2'><PlaceIcon fontSize='medium'/>{details.location}</Typography>
+                        </div>
+                        <div style={{minWidth: '60px', backgroundColor: '#2196F3', borderRadius: '25% 10%', display:'flex', alignItems: 'center', justifyContent:'center'}}>
+                        <Typography fontWeight= '500' color='white'sx={{justifySelf: 'flex-end'}} variant='h5'> {details.averageRating ? details.averageRating : '' }</Typography>
+                        </div>
+                      </div>
+                        
+                        
+                       {/* <Link href={`/aboutme/${details?.author?._id}`}><Typography variant="h5" >Submitted by: {author}</Typography></Link>  */}
+                       <Typography textAlign='end' color='#90A4AE' marginTop='5%' variant='subtitle2'>Submitted by: <Link color='#455A64' underline='hover' href={`/aboutme/${details?.author?._id}`}>{author}</Link></Typography>
 
                         
                     </div>
                     <hr></hr>
-                <Typography variant="body1" color="text.secondary">{details.description}</Typography>
-                <Typography sx={{mt: 2}}  color="text.secondary" variant="h5">{`Price: ${details.price} USD/night`}</Typography>
+                <Typography marginTop='2%' variant="body1" color='text.secondary'>{details.description}</Typography>
+                <Typography sx={{mt: '10%'}}  color="text.secondary" variant="subtitle2" textAlign='end'>
+                  Price from  <span style={{fontSize:'2em', fontWeight:'600', color:'#9C27B0', marginTop:'5rem'}}>{details.price} 
+                  <EuroSymbolIcon sx={{height: '1rem', fontSize:'0.9rem'}}/></span>  /night</Typography>
                 </CardContent>
-                <CardActions sx={{margin: 'auto'}}>
-            <Button href='/hotels'>Go Back</Button>
-            {userContext.details && author === userContext.details.username &&  
-            <>           
-            <Button onClick={toggle}>Edit</Button> 
-            <Button onClick ={toggleEditPhotos}>Manage Photos</Button>
-            <Button color='warning' onClick={()=>removeHotel(id)}>Delete!</Button> 
-            </>}
+                <CardActions sx={{margin: '4em auto', justifyContent:'space-around', backgroundColor:'#FAFAFA', borderRadius:'3%', width: '50%'}}>
 
-            </CardActions>  
-            {userContext.token && <AddReviewForm toggleUpdate={toggleUpdate} />}          
-             
-            <ReviewList toggleUpdate={toggleUpdate} hotelId= {details._id} reviews={details.reviews}/>
-            </Card>)}
-            </Grid>
-            <Grid item sm={4} sx={{marginTop: 15}}>{ details._id && <MapBoxHotel title={details.title} description={details.description} location={details.location} hotelId={details._id}/>}</Grid>
-         </Grid>  
-        </div>
+                  <LightTooltip title='Back'>
+                    <IconButton aria-label='Go Back' href='/hotels'>
+                      <KeyboardReturnIcon sx={{fontSize:'25px', color: '#455A64'}}/>
+                    </IconButton>
+                  </LightTooltip>
+              
+                  {userContext.details && author === userContext.details.username &&  
+                  <>  
+                  <LightTooltip title='Edit'>
+                    <IconButton aria-label='Edit' onClick={toggle}>
+                      <EditIcon sx={{fontSize:'25px', color:'#455A64'}}/>
+                    </IconButton>
+                  </LightTooltip>
+                  <LightTooltip title='Manage Photos'>
+                   <IconButton aria-label='Manage Photos' onClick ={toggleEditPhotos}>
+                    <PhotoCameraIcon sx={{fontSize:'25px', color: '#455A64'}}/>
+                   </IconButton>
+                  </LightTooltip>
+                  <LightTooltip title='Delete'>
+                    <IconButton aria-label='Delete' onClick={()=>removeHotel(id)}>
+                      <DeleteForeverIcon sx={{fontSize:'25px', color:'#D32F2F'}}/>
+                    </IconButton>
+                  </LightTooltip>
+                  </>}
+
+                </CardActions>  
+                    
+                    {userContext.token && 
+            
+            <AddReviewForm toggleUpdate={toggleUpdate} />}
+           
+            </Card >
+     
+            </Grid> 
+            {details._id && !isEditing && !isEditingPhotos &&
+          <Grid item xs={12} md={6} sx={{margin: '7rem auto'}}> 
+          <div className='geo-container'>
+              <MapBoxHotel 
+                title={details.title} 
+                description={details.description} 
+                location={details.location} 
+                hotelId={details._id}
+              />
+          </div>
+          <div className='reviews-container'>
+              <ReviewList 
+                toggleUpdate={toggleUpdate} 
+                hotelId= {details._id} 
+                reviews={details.reviews} 
+                averageRating={details.averageRating}
+              />
+          </div>
+            </Grid>}
+         </Grid></></Container>)
+ } </>
+      
     )
 }
 

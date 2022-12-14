@@ -1,0 +1,47 @@
+.homepage {
+    height: 100%;
+    width: 100%;
+    background-image:  url('../public/alex-NA72.jpg');
+    position: fixed;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    object-fit: cover;
+    /* linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), */
+}
+
+.slogan{
+    font-family: 'Poppins', sans-serif;
+    margin: 0 auto;
+    display:flex;
+    flex-direction: column;
+    margin-top: 10%;
+    color:black;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    font-weight:100;
+    font-size: 18;    
+}
+
+/* @media screen and (min-width: 1200px) {
+    .homepage{
+        margin-top: 90px;
+    }
+} */
+
+@media screen and (max-width: 768px) {
+    .slogan {
+        margin-top: 30%;
+        width:40%;
+        font-size: 0.8em;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    .slogan {
+        margin-top: 30%;
+        width:90%;
+        font-size: 0.6em;
+    }
+}

@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {Grid, Typography, Box, Card, List, ListItem, ListItemButton, ListItemText, Link} from '@mui/material';
+import {Grid, Typography, Box, Card, List, ListItem, ListItemButton, ListItemText, Paper} from '@mui/material';
 import { UserContext } from '../../context/UserContext';
 import axios from 'axios';
 
@@ -31,33 +31,36 @@ function UserDashboard(props) {
     
 
     return(
-        <Grid item sm={12} md={8}>
-        <Typography sx={{textAlign: 'center', marginY: '15px'}} component="h2">User Dashboard will be here!</Typography>
-        <Box sx={{
-                            height: 500,
+            <Box sx={{ background: 'linear-gradient(134.87deg, #E6EE9C -20%, #29B6F6 109.89%)', borderRadius:{xs: '2%', sm: '3%', md:'5%'}, width: '100%', padding:'4%'}}>
+            <Typography sx={{textAlign: 'center', color:'#37474F', paddingBottom:'5%', fontWeight:'900', letterSpacing:'2px'}} variant='h6'>
+            {userHotels && userHotels.length > 0 ? 
+            `You have ${userHotels.length} properties registered` : 'No properties added yet'}
+            </Typography>
+            <Box sx={{
+                            
                             width: '100%',
                             display: 'flex',
-                            justifyContent: 'center', alignItems: 'start',
-                            backgroundColor: '#bfb0be',
-                            '&:hover': {
-                            backgroundColor: '#f5f0f4',
-                            opacity: [0.9, 0.8, 0.7],
-                            },
+                            justifyContent: 'center', 
+                            alignItems: 'start',
+                            backgroundColor: 'white', 
+                            boxShadow: '0 0 30px 6px rgb(31 51 73 / 10%)',
+                            borderRadius:{xs: '2%', sm: '3%', md:'5%'}
+
                         }}>
             <List>
                 {userHotels?.map(hotel => (
                     <ListItem key={hotel._id}>
-                    <ListItemButton component="a" href={`/hotels/${hotel._id}`} divider>
-                        <ListItemText primary={hotel.title}/>
+                    <ListItemButton divider component="a" href={`/hotels/${hotel._id}`}>
+                        <ListItemText primary={hotel.title} sx={{color: '#3949AB', '&:hover': {color: 'black'}}}/>
                         
                     </ListItemButton>
                 </ListItem>
                 ))}
             </List>
-        </Box>
+            </Box>
+            </Box> 
 
-
-    </Grid>
+   
     )
 }
 

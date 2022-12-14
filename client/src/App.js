@@ -11,16 +11,49 @@ import { UserContext } from './context/UserContext';
 import axios from 'axios';
 import ResetPassword from './components/user/ResetPassword';
 import Profile from './components/user/Profile';
-import AddPhotos from './components/hotel/AddPhotos';
 
 const NewHotelForm = lazy(() => import('./components/hotel/NewHotelForm'));
 
 function App() {
   const [userContext, setUserContext] = useContext(UserContext);
 
+
+  const fetchUserDetails = useCallback(async () => {
+    const config = {
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${userContext.token}`,
+          }
+    }
+
+    const res = await axios.get('/api/users/me', config);
+            setUserContext(oldValues => {
+                return { ...oldValues, details: res.data };
+            });
+           
+
+}, [setUserContext, userContext.token]);
+
+  useEffect(() => {
+    console.log('useEffect for Profile!!!')
+    // fetch only when user details are not present
+        if(!userContext.token) return;                   
+        if (!userContext.details) {
+             fetchUserDetails();
+             return () => {
+              
+            }
+        }
+        
+  }, [userContext.details, fetchUserDetails, userContext.token]);
+
+  // ==============================================
+
+
   const verifyUser = useCallback(async () => {
-     const res = await axios.post('/api/auth/refreshtoken');
      
+     
+     const res = await axios.post('/api/auth/refreshtoken');
 
      if(res.statusText === 'OK') {
        setUserContext(oldValues => {
@@ -40,41 +73,19 @@ function App() {
     //       return { ...oldValues, token: null }
     //     })
       // }
-      // call refreshToken every 5 minutes to renew the authentication token.
-      setTimeout(verifyUser, 5 * 60 * 1000)
+      // call refreshToken every 10 minutes to renew the authentication token.
+      setTimeout(verifyUser, 10 * 60 * 1000)
   },[setUserContext]);
 
   useEffect(() => {
     verifyUser();
     console.log('Inside UseEffect for verifyUser!!!');
  
-  }, [verifyUser, userContext.token]);
+  }, [verifyUser]);
 
 // ==============================================
 
-  const fetchUserDetails = useCallback(async () => {
-    const config = {
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${userContext.token}`,
-          }
-    }
-
-    const res = await axios.get('/api/users/me', config);
-            setUserContext(oldValues => {
-                return { ...oldValues, details: res.data };
-            })
-           
-
-}, [setUserContext, userContext.token]);
-
-  useEffect(() => {
-    console.log('useEffect for Profile!!!')
-    // fetch only when user details are not present                   
-        if (!userContext.details) {
-             fetchUserDetails()
-        }
-  }, [userContext.details, fetchUserDetails])
+ 
 
 
 
@@ -89,16 +100,16 @@ function App() {
           element = {<Home/>}></Route>
             <Route
             path='hotels'
-            element = { <HotelList/> }></Route>                 
+            element = { <HotelList/> }></Route> 
+             <Route
+            path='hotels/search'
+            element = { <HotelList/> }></Route>                
           <Route 
             path='hotels/:id'
             element ={<HotelDetails/>}></Route> 
           <Route
             path='/new'
-            element = {userContext.token ? <NewHotelForm/> : <SignIn/>}></Route>
-            <Route
-            path='/addhotelwithphoto'
-            element ={<AddPhotos/>}></Route>     
+            element = {userContext.token ? <NewHotelForm/> : <SignIn/>}></Route>   
           <Route
             path='/aboutme/:id'
             element = {userContext.token ? <Profile/> : <SignIn/>}></Route>

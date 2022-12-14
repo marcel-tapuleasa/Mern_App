@@ -1,11 +1,18 @@
 import React from 'react';
+import Nav from './Nav';
+import styles from './index.module.css';
 
 function Home() {
 
     return (
-        <div style = {{marginTop: 300, backgroundColor: 'pink', textAlign: 'center'}}>
-            <h1>This is the home component!!!</h1>
+        <>
+        <Nav/>
+        <div className={styles.homepage}>
+            <div className={styles.slogan}>
+                <h1>This is the home component!!!</h1>
+            </div>
         </div>
+        </>
     )
 }
 

@@ -39,6 +39,9 @@ useEffect(() => {
     center: [lng,lat],
     zoom: zoom
     });
+
+
+
     new mapboxgl.Marker()
         .setLngLat([lng,lat])
         .setPopup(
@@ -52,9 +55,10 @@ useEffect(() => {
 
 
 return (
-<div>
-<div ref={mapContainer} style ={{height: '500px'}}/>
-</div>)
+
+<div ref={mapContainer} 
+style={{height: '500px', width: '100%', borderRadius: '0.5rem', boxShadow: '10px 10px 20px -10px #EACDF2'}}/>
+)
 
 };
 

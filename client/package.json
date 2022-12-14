@@ -21,6 +21,7 @@
     "react-router-dom": "^6.0.2",
     "react-scripts": "^5.0.1",
     "react-swipeable-views": "^0.14.0",
+    "react-toastify": "^9.1.1",
     "react-window": "^1.8.6",
     "use-deep-compare-effect": "^1.8.1",
     "web-vitals": "^1.1.2",
