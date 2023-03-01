@@ -81,10 +81,11 @@ export default function SignIn() {
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 8,
+            marginTop: '10rem',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
+            minHeight:'71vh'
           }}
         >
           <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
@@ -94,7 +95,7 @@ export default function SignIn() {
             Sign in
           </Typography>
       {error && <Alert severity='error'>{error}</Alert>}
-          <Box component="form" onSubmit={formik.handleSubmit} noValidate sx={{ mt: 1 }}>
+          <Box component="form" onSubmit={formik.handleSubmit} noValidate sx={{ mt: 1}}>
             <TextField
               margin="normal"
               required

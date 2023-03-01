@@ -1,11 +1,10 @@
 const Hotel = require('../models/hotels');
 const { cloudinary } = require('../cloudinary');
 const multer = require('multer');
-const ExpressError = require('../utils/ExpressError');
+// const ExpressError = require('../utils/ExpressError');
 
 const mapBoxToken = process.env.MAPBOX_TOKEN;
 const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
-const hotels = require('../models/hotels');
 const geocoder = mbxGeocoding({ accessToken: mapBoxToken });
 
 
@@ -67,12 +66,7 @@ module.exports.showHotelsbySearch = async (req, res, next) => {
  };   
 
 module.exports.editHotel = async (req,res)=> {
-    const hotel = await Hotel.findByIdAndUpdate(req.params.id, {...req.body});
-    // if(req.files) {
-    // const imgs = req.files.map(f => ({ url: f.path, filename: f.filename }));
-    // hotel.images.push(...imgs);
-    // };
-    // console.log(JSON.stringify(req.body));  
+    const hotel = await Hotel.findByIdAndUpdate(req.params.id, {...req.body});  
     const geoData = await geocoder.forwardGeocode({
         query: req.body.location,
         limit: 1
@@ -88,7 +82,7 @@ module.exports.addPhotos = async (req, res) => {
         const imgs = req.files.map(f => ({ url: f.path, filename: f.filename}));
         hotel.images.push(...imgs)
     }
-    console.log(JSON.stringify(req.body));   
+    // console.log(JSON.stringify(req.body));   
     await hotel.save();
     res.send(hotel)
  } 
@@ -102,7 +96,7 @@ module.exports.deletePhotos = async (req, res) => {
         await cloudinary.uploader.destroy(filename)
     };
     await hotel.updateOne({$pull: {images: {filename: {$in: req.body.deleteImages}}}})
-    console.log(req.body.deleteImages);
+    // console.log(req.body.deleteImages);
     res.send('Ok, It worked!!!')
 }    
 

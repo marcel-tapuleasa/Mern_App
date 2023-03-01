@@ -1,11 +1,12 @@
 import React, {useContext, useState} from 'react';
-import {Typography, Box, Card, CardMedia, Button, ButtonGroup, CardActions} from '@mui/material';
+import {Typography, Box, Card, CardMedia, Button, CardActions} from '@mui/material';
 import { UserContext } from '../../context/UserContext';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Tooltip, {tooltipClasses} from '@mui/material/Tooltip';
 import { styled } from '@mui/material/styles';
 import Stack from '@mui/material/Stack';
 import {toast} from 'react-toastify';
+import { motion } from 'framer-motion';
 
 
 import axios from 'axios';
@@ -88,7 +89,7 @@ function UserPhoto(props) {
 
     return(
             <Box
-                sx={{width: {xs: '100%', sm: '100%', md:'90%'}, borderRadius: {xs: '2%', sm: '3%', md:'5%'}}}>
+                sx={{ borderRadius: '8px'}}>
                 <form
                     encType='multipart/form-data' 
                     onSubmit={handleSubmitFile}
@@ -100,27 +101,50 @@ function UserPhoto(props) {
                             borderRadius:{xs: '2%', sm: '3%', md:'5%'},
                             boxShadow: '0 0 30px 6px rgb(31 51 73 / 10%)', 
                             background: 'linear-gradient(134.87deg, #fff -20%, whitesmoke  109.89%)',
+                            display:'flex',
+                            flexDirection:'column'
                             
                         }}> 
                         
-                        <Typography sx={{textAlign: 'center', marginY: '15px', fontSize:{xs: '1rem', sm: '1.2rem', md: '1.2rem'}, fontWeight:'600', color: '#0277BD'}} variant="h6">Update your profile Photo!</Typography>
+                        <Typography 
+                            sx={{
+                                textAlign: 'center', 
+                                marginY: '15px', 
+                                fontSize:{xs: '1rem', sm: '1.2rem', md: '1.2rem'}, 
+                                fontWeight:'600', 
+                                color: '#0277BD'
+                            }} 
+                            variant="h6">
+                                Update your profile Photo!
+                        </Typography>
                     
                      {previewSource ? 
-                                <img
+                                <motion.img
+                                    animate={{opacity: [0, 1]}}
+                                    transition={{duration: 1, type: 'ease'}}
                                     src={previewSource}
                                     alt="chosen"
-                                    style={{ height: '300px', width: '90%', marginLeft: '5%', loading: 'lazy', overflow:'hidden', aspectRatio:'1/1'}}
+                                    style={{
+                                        width: 'auto', 
+                                        height: '400px', 
+                                        margin: '5%', 
+                                        loading: 'lazy', 
+                                        overflow:'hidden', 
+                                        aspectRatio:'1/1', 
+                                        objectFit: 'contain'
+                                    }}
                                 /> : (
                         userContext.details.avatarImage ? 
                         <CardMedia
                             component="img"
                             alt="user avatar photo"
                             image={userContext.details.avatarImage.url}
-                            height='80%'
-                            sx={{ loading: 'lazy', overflow:'hidden', aspectRatio:'1/1'}}
+                            height='400px'
+                            width='400px'
+                            sx={{ loading: 'lazy', overflow:'hidden', aspectRatio:'1/1', objectFit: 'contain', margin: '5% auto'}}
                         /> :  
                           
-                            <AccountCircleIcon sx={{fontSize: '300px'}}/>)}
+                            <AccountCircleIcon sx={{fontSize: {xs:'150px', sm: '200px', md: '300px'}, alignSelf:'center'}}/>)}
                         <CardActions>
                             <Stack direction="row" alignItems="center" spacing={2} sx={{margin: '3% auto'}}>
                                 <LightTooltip title='Chose Photo'>
@@ -128,7 +152,7 @@ function UserPhoto(props) {
                                     component='label'
                                     variant='outlined' 
                                     color='info'
-                                >{userContext.details.avatarImage ? "Change Photo" : "Upload Photo"}
+                                >{userContext.details.avatarImage ? "Update Photo" : "Upload Photo"}
                                     <input 
                                     hidden
                                     type='file'

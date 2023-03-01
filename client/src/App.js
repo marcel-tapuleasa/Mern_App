@@ -10,9 +10,10 @@ import Home from './Home';
 import { UserContext } from './context/UserContext';
 import axios from 'axios';
 import ResetPassword from './components/user/ResetPassword';
-import Profile from './components/user/Profile';
+import Dashboard from './components/user/Dashboard';
 
 const NewHotelForm = lazy(() => import('./components/hotel/NewHotelForm'));
+
 
 function App() {
   const [userContext, setUserContext] = useContext(UserContext);
@@ -35,7 +36,7 @@ function App() {
 }, [setUserContext, userContext.token]);
 
   useEffect(() => {
-    console.log('useEffect for Profile!!!')
+    // console.log('useEffect for Profile!!!')
     // fetch only when user details are not present
         if(!userContext.token) return;                   
         if (!userContext.details) {
@@ -64,22 +65,13 @@ function App() {
          return{...oldValues, token: null}
        })
      }
-    //   if (response.statusText==='OK') {
-    //     setUserContext(oldValues => {
-    //       return { ...oldValues, token: data.token }
-    //     })
-    //   } else {
-    //     setUserContext(oldValues => {
-    //       return { ...oldValues, token: null }
-    //     })
-      // }
       // call refreshToken every 10 minutes to renew the authentication token.
       setTimeout(verifyUser, 10 * 60 * 1000)
   },[setUserContext]);
 
   useEffect(() => {
     verifyUser();
-    console.log('Inside UseEffect for verifyUser!!!');
+    // console.log('Inside UseEffect for verifyUser!!!');
  
   }, [verifyUser]);
 
@@ -91,17 +83,16 @@ function App() {
 
   return (
     <div >
-      {/* <Container maxWidth='xl'> */}
         <Navbar/>
         <Suspense fallback={<div>Loading...</div>}>
         <Routes>          
           <Route
-          path='/'
-          element = {<Home/>}></Route>
-            <Route
+            path='/'
+            element = {<Home/>}></Route>
+          <Route
             path='hotels'
             element = { <HotelList/> }></Route> 
-             <Route
+          <Route
             path='hotels/search'
             element = { <HotelList/> }></Route>                
           <Route 
@@ -112,29 +103,28 @@ function App() {
             element = {userContext.token ? <NewHotelForm/> : <SignIn/>}></Route>   
           <Route
             path='/aboutme/:id'
-            element = {userContext.token ? <Profile/> : <SignIn/>}></Route>
+            element = {userContext.token ? <Dashboard/> : <SignIn/>}></Route>
           <Route
-          path='/register'
-          element = {<SignUp/>}></Route> 
-           <Route
-          path='/login'
-          element = {<SignIn/>}></Route>
+            path='/register'
+            element = {<SignUp/>}></Route> 
           <Route
-          path='/forgotpassword'
-          element = {<ForgotPassword/>}></Route>
+            path='/login'
+            element = {<SignIn/>}></Route>
           <Route
-          path='/resetpassword/:resetToken'
-          element = {<ResetPassword/>}></Route>
+            path='/forgotpassword'
+            element = {<ForgotPassword/>}></Route>
+          <Route
+            path='/resetpassword/:resetToken'
+            element = {<ResetPassword/>}></Route>
 
           </Routes></Suspense>
       
 
         
         {/* <Footer
-          title="Made By"
+          title="Made by"
           description="Something here to give the footer a purpose!"
       /> */}
-      {/* </Container> */}
     </div>
   );
 }

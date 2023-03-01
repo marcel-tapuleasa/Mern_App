@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {Grid, Typography, Box, Card, List, ListItem, ListItemButton, ListItemText, Paper} from '@mui/material';
+import {Typography, Box, List, ListItem, ListItemButton, ListItemText} from '@mui/material';
 import { UserContext } from '../../context/UserContext';
 import axios from 'axios';
 
@@ -31,22 +31,36 @@ function UserDashboard(props) {
     
 
     return(
-            <Box sx={{ background: 'linear-gradient(134.87deg, #E6EE9C -20%, #29B6F6 109.89%)', borderRadius:{xs: '2%', sm: '3%', md:'5%'}, width: '100%', padding:'4%'}}>
-            <Typography sx={{textAlign: 'center', color:'#37474F', paddingBottom:'5%', fontWeight:'900', letterSpacing:'2px'}} variant='h6'>
-            {userHotels && userHotels.length > 0 ? 
-            `You have ${userHotels.length} properties registered` : 'No properties added yet'}
-            </Typography>
+            
+            
             <Box sx={{
                             
-                            width: '100%',
+                            // width: {xs: '100%', sm: '90%', md:'80%'},
                             display: 'flex',
+                            flexDirection: 'column',
                             justifyContent: 'center', 
-                            alignItems: 'start',
+                            alignItems: 'center',
                             backgroundColor: 'white', 
                             boxShadow: '0 0 30px 6px rgb(31 51 73 / 10%)',
-                            borderRadius:{xs: '2%', sm: '3%', md:'5%'}
+                            borderRadius:'5px'
 
                         }}>
+                         
+                <Typography 
+                    sx={{
+                        textAlign: 'center', 
+                        color:'#0277BD', 
+                        paddingBottom:'5%',  
+                        // letterSpacing:'1px', 
+                        margin:'2rem auto',
+                        fontSize:{xs: '1rem', sm: '1.2rem', md: '1.2rem'}, 
+                        fontWeight:'600', 
+                    }} 
+                        variant='h6'>
+                {userHotels && userHotels.length > 0 ? 
+                `You have ${userHotels.length} properties registered` : 'No properties added yet'}
+                </Typography>
+          
             <List>
                 {userHotels?.map(hotel => (
                     <ListItem key={hotel._id}>
@@ -58,7 +72,6 @@ function UserDashboard(props) {
                 ))}
             </List>
             </Box>
-            </Box> 
 
    
     )

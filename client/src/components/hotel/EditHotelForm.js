@@ -42,7 +42,7 @@ main: {
   },
 sloganText: {
     padding: '30px',
-    color: '3C4257',
+    color: '#3C4257',
     textAlign: 'center',
     fontSize: '24px',
     fontWeight: 'bold',

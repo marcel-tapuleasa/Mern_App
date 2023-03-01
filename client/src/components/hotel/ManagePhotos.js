@@ -65,7 +65,7 @@ const styles = {
       },
     sloganText: {
         padding: '30px',
-        color: '3C4257',
+        color: '#3C4257',
         textAlign: 'center',
         fontSize: '24px',
         fontWeight: 'bold',
@@ -286,7 +286,8 @@ function ManagePhotos(props) {
                               maxWidth: 600,
                               overflow: 'hidden',
                               width: '100%',
-                              aspectRatio: '1/1'
+                              aspectRatio: '1/1', 
+                              objectFit: 'contain'
                             }}
                           />
                         </ImageListItem>

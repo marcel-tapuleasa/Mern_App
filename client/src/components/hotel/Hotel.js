@@ -32,7 +32,7 @@ function Hotel (props) {
                     alt="generic hotel"
                     height="150"
                     image={images[0].url}
-                    // image="https://images.unsplash.com/photo-1517840901100-8179e982acb7?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTd8fGhvdGVsc3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"
+                    style={{objectFit: 'cover'}}
                 />
                 <CardContent>
                     <div>

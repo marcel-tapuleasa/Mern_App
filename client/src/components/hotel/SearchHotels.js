@@ -1,19 +1,17 @@
 import React, {useState, useContext} from 'react';
 import axios from 'axios';
-import {useNavigate, useLocation} from 'react-router-dom';
-import Button from '@mui/material/Button';
+import {useNavigate} from 'react-router-dom';
 import Stack from '@mui/material/Stack';
 import SearchIcon from '@mui/icons-material/Search';
 import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
-import Box from '@mui/material/Box';
 import { UserContext } from '../../context/UserContext';
 
 
 
-   function useQuery() {
-    return new URLSearchParams(useLocation().search);
-  }
+//    function useQuery() {
+//     return new URLSearchParams(useLocation().search);
+//   }
 
 
 function SearchHotels (props) {
@@ -24,8 +22,8 @@ function SearchHotels (props) {
 
     const {toggleSearchDone} = props;
 
-    const query = useQuery();
-    const searchQuery = query.get('searchQuery');
+    // const query = useQuery();
+    // const searchQuery = query.get('searchQuery');
     const navigate = useNavigate();
 
     const searchHotels = async (searchQuery) => {
@@ -54,18 +52,8 @@ function SearchHotels (props) {
     }
 
     return(
-    // <Box sx={{background:'#F48FB1', borderRadius:'1%', boxShadow:'0 0 30px 6px #F5F5F5', margin: '2% auto' }}>
         <Stack 
-            // direction={{xs:'column', sm: 'row'}}    
-            // justifyContent='space-around'
-            // alignItems='center' 
-            sx={{width:{xs: '100%', sm:'80%', md:'50%'}, margin: '10% auto 2%'}}>              
-                 {/* <Button
-                    size='small'
-                    variant='contained'
-                    sx={{height: '1.5rem'}}
-                    href='/new'>Add
-                </Button> */}
+            sx={{width:{xs: '100%', sm:'80%', md:'50%'}, margin: '10% auto 2%'}}>             
                 <TextField
                 margin='normal'
                     hiddenLabel
@@ -73,7 +61,6 @@ function SearchHotels (props) {
                     size='small'
                     type="search"
                     id="search"
-                    // label='Search hotels by location'
                     placeholder='Search hotels by location'
                     autoComplete='off'
                     value={search}
@@ -108,14 +95,8 @@ function SearchHotels (props) {
                               }
                 }}
                 />
-                {/* <Button 
-                onClick={searchHotels}
-                size='small'
-                variant='contained'
-                sx={{height: '1.5rem'}}>Search
-                </Button> */}
+
             </Stack>
-            // </Box> 
 
 
     )

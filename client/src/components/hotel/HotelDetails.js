@@ -194,6 +194,8 @@ function HotelDetails (props) {
                                 maxWidth: 600,
                                 overflow: 'hidden',
                                 width: '100%',
+                                objectFit: 'cover',
+                                
                               }}
                             />) : null}
                     </div>

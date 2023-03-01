@@ -5,6 +5,8 @@ import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 
+import footerLogo from './assets/footerLogo.png';
+
 function Copyright() {
   return (
     <Typography variant="body2" color="text.secondary" align="center">
@@ -22,11 +24,17 @@ function Footer(props) {
   const { description, title } = props;
 
   return (
-    <Box component="footer" sx={{ bgcolor: 'background.paper', py:6, position:'absolute', bottom:0, width:'100%', height:'50px'}}>
+    <Box component="footer" sx={{ bgcolor: '#ECEFF1', py:3, marginTop:'auto', width:'100%', zIndex:'1000', position:'absolute'}}>
       <Container>
+        <Box sx={{display:'flex', justifyContent:'center'}}>
         <Typography variant="h6" align="center" gutterBottom>
           {title}
         </Typography>
+        <Box
+          component='img'
+          src={footerLogo}
+          sx={{height:'25px', marginTop:'4px', marginLeft:'6px'}}/>
+        </Box>
         <Typography
           variant="subtitle1"
           align="center"

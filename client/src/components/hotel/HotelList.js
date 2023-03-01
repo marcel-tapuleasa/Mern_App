@@ -3,8 +3,6 @@ import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
 import Hotel from './Hotel';
 import GeneralMap from './GeneralMap';
-import { withStyles} from '@mui/styles';
-import styles from '../../styles/HotelListStyles';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
 import SearchHotels from './SearchHotels';
@@ -27,7 +25,7 @@ function HotelList(props) {
     const navigate = useNavigate();
 
 
-    const { classes} = props;
+    // const { classes} = props;
     
 
 
@@ -61,7 +59,7 @@ function HotelList(props) {
                 <GeneralMap/>
                 <SearchHotels toggleSearchDone={toggleSearchDone}/>
                  {userContext.searchHotels && userContext.searchHotels.length > 0 && <Button onClick={clearSearch}>All Hotels</Button>}
-                    <Grid container direction='row' justifyContent='space-around' className={classes.hotelContainer}>
+                    <Grid container direction='row' justifyContent='space-around' sx={{  marginY: '1%'}}>
                     
                         {userContext.searchHotels && userContext.searchHotels.length > 0 ?
                         
@@ -106,4 +104,4 @@ function HotelList(props) {
     )
 }
 
-export default withStyles(styles)(HotelList);
+export default HotelList;

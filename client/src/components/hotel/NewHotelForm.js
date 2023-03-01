@@ -47,11 +47,11 @@ const styles = {
 }
 
     // const FILE_SIZE = 160 * 1024;
-    const SUPPORTED_FORMATS = [
-      "image/jpg",
-      "image/jpeg",
-      "image/png"
-    ];
+    // const SUPPORTED_FORMATS = [
+    //   "image/jpg",
+    //   "image/jpeg",
+    //   "image/png"
+    // ];
 
 const validationSchema = yup.object().shape({
     title: yup

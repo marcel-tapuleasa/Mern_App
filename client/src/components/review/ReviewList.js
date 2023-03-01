@@ -42,8 +42,6 @@ const reviews = props.reviews?.slice(0).reverse().map((review, idx) => {
                         </span>
               </Typography>
               <Divider/>
-              {/* <Typography paddingTop='10px' paddingBottom='10px' paddingLeft='10px' textAlign='left' fontWeight='600' fontSize='3.5rem' 
-              color={props.averageRating < 3 ? '#666' : (props.averageRating < 4 ? '#FB8C00' : '#FDD835')} sx={{textShadow:'2px 2px 2px #8D6E63'}}>{props.averageRating} </Typography> */}
             </Box>
                     {reviews}       
         </div>

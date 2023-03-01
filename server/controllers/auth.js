@@ -9,7 +9,7 @@ const protect = require('../middleware/auth');
 const { cloudinary } = require('../cloudinary');
 const multer = require('multer');
 const { storage } = require('../cloudinary');
-const hotels = require('../models/hotels');
+// const hotels = require('../models/hotels');
 const { authorize } = require('passport');
 const upload = multer({ storage });
 
@@ -220,6 +220,9 @@ exports.resetpassword = async (req, res, next) => {
 exports.uploadAvatar = async (req, res) => {
     const {id} = req.params;
     const user = await User.findById(id);
+    if(user.avatarImage.filename) {
+        await cloudinary.uploader.destroy(user.avatarImage.filename)
+    }
     user.avatarImage.url = req.file.path;
     user.avatarImage.filename = req.file.filename;
     await user.save();

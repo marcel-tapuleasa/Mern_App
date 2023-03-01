@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Link, useNavigate} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 
 import AppBar from '@mui/material/AppBar';
@@ -17,9 +17,11 @@ import MenuItem from '@mui/material/MenuItem';
 import { UserContext } from './context/UserContext';
 import axios from 'axios';
 import HomeIcon from '@mui/icons-material/Home';
-import HotelIcon from '@mui/icons-material/Hotel';
-import AddCircleOutlinedIcon from '@mui/icons-material/AddCircleOutlined';
+import Stack from '@mui/material/Stack';
+import Link from '@mui/material/Link';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
+import logo from './assets/logo7.png';
 
 const LightTooltip = styled(({ className, ...props }) => (
   <Tooltip {...props} classes={{ popper: className }} />
@@ -32,6 +34,20 @@ const LightTooltip = styled(({ className, ...props }) => (
   },
 }));
 
+
+
+
+const theme = createTheme({
+  components: {
+    // Name of the component ⚛️
+    MuiButtonBase: {
+      defaultProps: {
+        // The props to apply
+        disableRipple: true, // No more ripple, on the whole application 💣!
+      },
+    },
+  },
+});
 
 
 
@@ -83,6 +99,7 @@ const Navbar = () => {
 
   return (
     <>
+    <ThemeProvider theme={theme}>
     <AppBar  sx={{mb: '20px',
                  backgroundColor: 'rgba(255,255,255,0.8)', 
                  boxShadow:'none', 
@@ -97,15 +114,11 @@ const Navbar = () => {
                  position='fixed' >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            color='black'
-            sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
-          >
-            HotelZone
-          </Typography>
+          <Box
+          component='img'
+          src={logo}
+          sx={{height:'40px', width:'150px', display:{xs: 'none', sm: 'none', md:'flex'}}}/>
+          
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
@@ -137,81 +150,114 @@ const Navbar = () => {
               }}
             >
               
-                <MenuItem component={Link} to='/'
+                <MenuItem component={Link} href='/'
                 onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">Home </Typography>
                 </MenuItem>
-                <MenuItem component={Link} to='/hotels'
+                <MenuItem component={Link} href='/hotels'
                 onClick={handleCloseNavMenu}
                 >
                   <Typography textAlign="center">
                     Hotels</Typography>
                 </MenuItem>
-                <MenuItem component={Link} to='/new'
+                <MenuItem component={Link} href='/new'
                 onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">
                     Add Hotel</Typography>
                 </MenuItem>
               
             </Menu>
+             <Box
+            component='img'
+            src={logo}
+            sx={{
+                height:'30px', 
+                width:'100px', 
+                margin: '2% auto 0'
+                // display:{xs: 'flex', sm: 'flex', md:'none'},
+          
+              }}
+                />
           </Box>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
-          >
-            Hotels
-          </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, justifyContent:'flex-start', my: 1, mx: '3rem' }}>
+         
+          <Box sx={{ 
+            flexGrow: 1, 
+            display: { xs: 'none', md: 'flex' }, 
+            justifyContent:'flex-end', 
+            my: 1, 
+            mx: '3rem',
+             }}>
+              <Stack direction='row' justifyContent='space-between' sx={{width:{md: '50%', lg:'40%', xl: '30%'}, marginRight:{md:'1em', lg:'3em'}}}>
             <LightTooltip title='Homepage'>
               <Button
+                disableRipple={true}
                 href='/'
                 onClick={handleCloseNavMenu}
-                sx={{ my: 1.5, color: 'white', display: 'block' }}
+                sx={{ my: 1.5, display: 'block', '&:hover': {backgroundColor: 'transparent' } }}
               >
-                <HomeIcon sx={{ color: '#E91E63'}}/>
+                <HomeIcon sx={{ color: '#040645', '&:hover': {color: '#9fa0b5', marginTop: '1.5px'}}}/>
               </Button>
             </LightTooltip>
               <Button
                 href='/hotels'
                 onClick={handleCloseNavMenu}
-                startIcon={<HotelIcon/>}
+                // startIcon={<HotelIcon/>}
+                disableRipple={true}
+                
                 sx={{ p: '2', 
                       display: 'inline-flex', 
                       color: 'black', 
                       textTransform: 'capitalize',
-                      marginLeft: '5%'}}
+                      marginLeft: '5%',
+                      backgroundImage: 'linear-gradient(transparent calc(100% - 1px), rgb(0, 0, 0) 1px), linear-gradient(transparent calc(100% - 1px), rgb(229, 229, 229) 1px)',
+                      backgroundSize: '0% 6px, 100% 6px',
+                      backgroundPosition: '0px calc(100% - 1px), 0px calc(100% - 1px)',
+                      transition: 'all 400ms cubic-bezier(0.2, 0.8, 0.4, 1) 0s',
+                      backgroundRepeat: 'no-repeat',
+                    '&:hover': {backgroundSize: '100% 6px, 100% 6px', backgroundColor:'transparent', color: '#9fa0b5'}
+                    }}
               >
                 Hotels
               </Button>
               <Button
                 href='/new'
                 onClick={handleCloseNavMenu}
-                startIcon={<AddCircleOutlinedIcon/>}
+                // startIcon={<AddCircleOutlinedIcon/>}
                 sx={{ 
                   p:'2', 
                   color: 'black', 
                   display: 'inline-flex', 
                   textTransform:'capitalize',
-                  marginLeft:'2%'
+                  marginLeft:'2%',
+                  backgroundImage: 'linear-gradient(transparent calc(100% - 1px), rgb(0, 0, 0) 1px), linear-gradient(transparent calc(100% - 1px), rgb(229, 229, 229) 1px)',
+                  backgroundSize: '0% 6px, 100% 6px',
+                  backgroundPosition: '0px calc(100% - 1px), 0px calc(100% - 1px)',
+                  transition: 'all 400ms cubic-bezier(0.2, 0.8, 0.4, 1) 0s',
+                  backgroundRepeat: 'no-repeat',
+                 '&:hover': {backgroundSize: '100% 6px, 100% 6px', backgroundColor:'transparent', color: '#9fa0b5'}
                  }}
               >
                 Add Hotel
               </Button>
-            
+            </Stack>
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip arrow title={userContext.token ? 'View Account' : 'Login'}>
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+            <LightTooltip arrow title={userContext.token ? 'View Account' : 'Login'}>
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, marginTop:'5%'  }}>
                 <Avatar 
                 src=
                 {userContext.details && userContext.details.avatarImage ? userContext.details.avatarImage.url : 
                   '' }
-                sx={{ width: 56, height: 56, border: '2px solid #F06292', boxShadow: '3px 3px 5px -3px #BDBDBD' }}/>
+                sx={{ 
+                  width: {xs:40, md: 56}, 
+                  height: {xs:40, md: 56},
+      
+                  // border: '2px solid #F06292', 
+                  // boxShadow: '3px 3px 5px -3px #BDBDBD' 
+                  }}/>
               </IconButton>
-            </Tooltip>
+            </LightTooltip>
 
             <Menu
               sx={{ mt: '45px' }}
@@ -236,11 +282,11 @@ const Navbar = () => {
               ))} */}
              {userContext.token && userContext.token !==null && userContext.details  ?
                <div>
-               <Link  underline='none' to={`/aboutme/${userContext.details._id}`}><MenuItem>Profile</MenuItem></Link>
+               <MenuItem><Link href={`/aboutme/${userContext.details._id}`} underline="none" sx={{color:'black'}}>Profile</Link></MenuItem>
               <MenuItem onClick={logout}>Logout</MenuItem>
               </div> 
               :
-              <Link to='/login'><MenuItem>Login</MenuItem></Link>}
+              <MenuItem><Link href='/login' underline='none' sx={{color:'black'}}>Login</Link></MenuItem>}
             
              
               
@@ -251,6 +297,7 @@ const Navbar = () => {
       </Container>
       
     </AppBar>
+    </ThemeProvider>
   </>)
 };
 
