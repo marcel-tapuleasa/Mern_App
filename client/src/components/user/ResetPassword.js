@@ -34,7 +34,7 @@ const ResetPassword = ({ history, match }) => {
 
     
       const resetPromise = axios.put(
-        `/api/auth/resetpassword/${resetToken}`,
+        `https://hoteltips.onrender.com/api/auth/resetpassword/${resetToken}`,
         {
           password,
         },

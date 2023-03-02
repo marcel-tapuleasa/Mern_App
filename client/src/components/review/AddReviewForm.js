@@ -59,7 +59,7 @@ function AddReviewForm(props) {
         };
             
 
-        await axios.post(`/hotels/${id}/reviews`, { body: body, rating: rating}, config)
+        await axios.post(`https://hoteltips.onrender.com/hotels/${id}/reviews`, { body: body, rating: rating}, config)
         // console.log('AddReview');
         props.toggleUpdate();
         resetForm({values: ''})

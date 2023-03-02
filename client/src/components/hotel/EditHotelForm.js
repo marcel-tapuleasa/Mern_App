@@ -100,7 +100,7 @@ const {title, location, description, price, id, classes, toggle} = props;
             
           }
 
-        const promise = axios.put(`/hotels/${id}/edit`, 
+        const promise = axios.put(`https://hoteltips.onrender.com/hotels/${id}/edit`, 
                                       { title: values.title, 
                                         location: values.location, 
                                         description: values.description, 

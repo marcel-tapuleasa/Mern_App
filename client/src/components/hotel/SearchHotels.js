@@ -29,7 +29,7 @@ function SearchHotels (props) {
     const searchHotels = async (searchQuery) => {
         toggleSearchDone();
         if(search.trim()) {
-        const res = await axios.get(`/hotels/search?searchQuery=${search || 'none'}`);
+        const res = await axios.get(`https://hoteltips.onrender.com/hotels/search?searchQuery=${search || 'none'}`);
         setUserContext(oldValues => {
             return { ...oldValues, searchHotels: res.data };
         })

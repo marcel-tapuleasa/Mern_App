@@ -31,7 +31,7 @@ function HotelList(props) {
 
     useEffect(() =>{
         async function getData() {
-            const res = await axios.get('/hotels');
+            const res = await axios.get('https://hoteltips.onrender.com/hotels');
             
             setHotels(res.data);
         }
