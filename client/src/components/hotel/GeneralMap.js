@@ -19,7 +19,7 @@ const GeneralMap = () => {
 
     const res = await axios.get('/hotels');
     const hotelsFeatures = {features: (res.data)};
-    console.log(hotelsFeatures);
+    // console.log(hotelsFeatures);
       mapboxgl.accessToken = 'pk.eyJ1IjoibWFyY2VsdGFwdWxlYXNhIiwiYSI6ImNsODJ0ZGpnbjAwdjczdnA3MnhneWN0c2wifQ._V9xXIB_NXdZiBAdB-4Haw';
       map.current = new mapboxgl.Map({
       container: generalMapContainer.current,

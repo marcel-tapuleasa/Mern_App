@@ -81,7 +81,7 @@ function HotelDetails (props) {
       };
 
 
-    const [userContext, setUserContext] = useContext(UserContext);
+    const [userContext] = useContext(UserContext);
 
     let {id} = useParams();
     let navigate = useNavigate();
@@ -89,7 +89,7 @@ function HotelDetails (props) {
    
      
     useEffect(() => {
-        console.log('1st UseEffect');
+        // console.log('1st UseEffect');
         async function getData() {
             const config = {
                 credentials: "include",

@@ -1,5 +1,5 @@
-import React, {useEffect, useRef, useState, useContext} from 'react';
-import { UserContext } from '../../context/UserContext';
+import React, {useEffect, useRef, useState} from 'react';
+// import { UserContext } from '../../context/UserContext';
 import axios from 'axios';
 
 import mapboxgl from 'mapbox-gl';
@@ -9,7 +9,7 @@ export default function MapBoxHotel(props) {
 
     
  
-const [userContext, setUserContext] = useContext(UserContext);   
+// const [userContext, setUserContext] = useContext(UserContext);   
 
 const mapContainer = useRef(null);
 const map = useRef(null);
@@ -18,10 +18,10 @@ const [lat, setLat] = useState(42.35);
 const [zoom, setZoom] = useState(9);
 
 useEffect(() => {
-    console.log('UseEffect for Geometry!!!')
+    // console.log('UseEffect for Geometry!!!')
     async function getGeometry() {
     const res = await axios.get(`/hotels/geometry/${props.hotelId}`);
-    console.log(`${res.data.coordinates[0]} - ${res.data.coordinates[1]}`)
+    // console.log(`${res.data.coordinates[0]} - ${res.data.coordinates[1]}`)
     setLng(res.data.coordinates[0]);
     setLat(res.data.coordinates[1]);
     }
@@ -32,7 +32,7 @@ getGeometry()
 useEffect(() => {
    
     // if (map.current) return; // initialize map only once
-    console.log('MapBox UseEffect!!!')
+    // console.log('MapBox UseEffect!!!')
     map.current = new mapboxgl.Map({
     container: mapContainer.current,
     style: 'mapbox://styles/mapbox/streets-v11',
