@@ -116,7 +116,7 @@ function NewHotelForm (props) {
       }
       
     }
-    const promise = axios.post('/hotels/new', formData, config );
+    const promise = axios.post('https://hoteltips.onrender.com/hotels/new', formData, config );
 
     await toast.promise(promise, {
       pending: {

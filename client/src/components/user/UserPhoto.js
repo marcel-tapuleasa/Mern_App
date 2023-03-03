@@ -62,12 +62,13 @@ function UserPhoto(props) {
 
         const config = {
             credentials: "include",
+            withCredentials: true,
             headers: {
               "Authorization": `Bearer: ${userContext.token}`
             }
         }
 
-        const res = axios.put(`/api/auth/useravatarimage/${userContext.details._id}`, formData, config );
+        const res = axios.put(`https://hoteltips.onrender.com/api/auth/useravatarimage/${userContext.details._id}`, formData, config );
 
         await toast.promise(res, {
             pending: {

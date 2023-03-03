@@ -79,13 +79,14 @@ const Navbar = () => {
 
     const config = {
       credentials: "include",
+      withCredentials: true,
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${userContext.token}`
       }
     };
 
-    axios.get('/api/auth/logout', config)
+    axios.get('https://hoteltips.onrender.com/api/auth/logout', config)
     .then(async response => {
       setUserContext(oldValues => {
         return { ...oldValues, token: null, details: {} }

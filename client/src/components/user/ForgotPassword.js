@@ -36,7 +36,7 @@ const ForgotPassword = () => {
 
     // try {
       const promise = axios.post(
-        "/api/auth/forgotpassword",
+        "https://hoteltips.onrender.com/api/auth/forgotpassword",
         { email },
         config
       );
