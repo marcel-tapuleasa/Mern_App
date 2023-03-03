@@ -246,7 +246,6 @@ const sendToken = (user, statusCode, res) => {
     res.cookie('refreshToken', refreshToken, {
         httpOnly: true,
         signed: true,
-        sameSite: 'none', 
         maxAge: 60 * 60 * 24 * 30 * 1000
         
     })
