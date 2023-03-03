@@ -21,7 +21,7 @@ function Review (props) {
 
     useEffect(() => {
         async function getReviewDetails() {
-            let res = await axios.get(`https://hoteltips.onrender.com/hotels/${hotelId}/reviews/${props.review._id}/reviewDetails`);
+            let res = await axios.get(`/hotels/${hotelId}/reviews/${props.review._id}/reviewDetails`);
             // console.log('UseEffect Reviews Details!!!');
             setReviewAuthor(res.data.author.username);
         };
@@ -39,7 +39,7 @@ function Review (props) {
             }
         };
 
-        await axios.delete(`https://hoteltips.onrender.com/hotels/${hotelId}/reviews/${props.review._id}`, config);
+        await axios.delete(`/hotels/${hotelId}/reviews/${props.review._id}`, config);
         props.toggleUpdate();
     }
 

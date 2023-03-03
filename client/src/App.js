@@ -24,10 +24,11 @@ function App() {
         headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${userContext.token}`,
-          }
+          },
+        withCredentials: true  
     }
 
-    const res = await axios.get('https://hoteltips.onrender.com/api/users/me', config);
+    const res = await axios.get('/api/users/me', config);
             setUserContext(oldValues => {
                 return { ...oldValues, details: res.data };
             });
@@ -52,9 +53,17 @@ function App() {
 
 
   const verifyUser = useCallback(async () => {
+
+    const config = {
+      headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userContext.token}`,
+        },
+      withCredentials: true  
+  }
      
      
-     const res = await axios.post('https://hoteltips.onrender.com/api/auth/refreshtoken');
+     const res = await axios.post('/api/auth/refreshtoken', config);
 
      if(res.statusText === 'OK') {
        setUserContext(oldValues => {

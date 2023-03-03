@@ -17,7 +17,7 @@ const GeneralMap = () => {
     
     if (map.current) return;
 
-    const res = await axios.get('https://hoteltips.onrender.com/hotels');
+    const res = await axios.get('/hotels');
     const hotelsFeatures = {features: (res.data)};
     // console.log(hotelsFeatures);
       mapboxgl.accessToken = 'pk.eyJ1IjoibWFyY2VsdGFwdWxlYXNhIiwiYSI6ImNsODJ0ZGpnbjAwdjczdnA3MnhneWN0c2wifQ._V9xXIB_NXdZiBAdB-4Haw';
