@@ -47,8 +47,20 @@ export default function SignIn() {
 
     const {email, password} = values;
 
+    const config = {
+      withCredentials: true,
+      crossDomain: true,
+      headers: {
+          "Content-Type": "application/json",
+          Accept: 'application/json',
+          'Access-Control-Allow-Origin': 'https://hoteltips.netlify.app',
+           Authorization: `Bearer ${userContext.token}`,
+        },
+      credentials: "included"  
+  }
+
     try {
-      const { data } = await axios.post('https://hoteltips.onrender.com/api/auth/login', {email, password});
+      const { data } = await axios.post('https://hoteltips.onrender.com/api/auth/login', {email, password}, config);
 
       setUserContext(oldValues => {
         return { ...oldValues, token: data.token, details: data.user}
