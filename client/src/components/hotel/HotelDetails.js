@@ -93,15 +93,13 @@ function HotelDetails (props) {
         async function getData() {
           const config = {
             withCredentials: true,
-            crossDomain: true,
             headers: {
                 "Content-Type": "application/json",
-                Accept: 'application/json',
                  Authorization: `Bearer ${userContext.token}`,
               },
             credentials: "included"  
         }
-            let res = await axios.get(`https://hoteltips.onrender.com/hotels/${id}`, null, config);
+            let res = await axios.get(`https://hoteltips.onrender.com/hotels/${id}`, config);
             setDetails(prev => res.data);
             setAuthor(res.data.author.username);
         
@@ -111,16 +109,14 @@ function HotelDetails (props) {
 
            
             return (() => setIsUpdated(!isUpdated))
-}, [JSON.stringify(details), id, isUpdated, isEditing, isEditingPhotos])   
+}, [JSON.stringify(details), id, isUpdated, isEditing, isEditingPhotos, userContext.token])   
   
 
     const removeHotel = async (id) => {
       const config = {
         withCredentials: true,
-        crossDomain: true,
         headers: {
             "Content-Type": "application/json",
-            Accept: 'application/json',
              Authorization: `Bearer ${userContext.token}`,
           },
         credentials: "included"  

@@ -94,10 +94,8 @@ const {title, location, description, price, id, classes, toggle} = props;
 
         const config = {
           withCredentials: true,
-          crossDomain: true,
           headers: {
               "Content-Type": "application/json",
-              Accept: 'application/json',
                Authorization: `Bearer ${userContext.token}`,
             },
           credentials: "included"  

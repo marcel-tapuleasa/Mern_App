@@ -22,16 +22,14 @@ function App() {
   const fetchUserDetails = useCallback(async () => {
     const config = {
       withCredentials: true,
-      crossDomain: true,
       headers: {
           "Content-Type": "application/json",
-          Accept: 'application/json',
            Authorization: `Bearer ${userContext.token}`,
         },
       credentials: "included"  
   }
 
-    const res = await axios.get('https://hoteltips.onrender.com/api/users/me', null, config);
+    const res = await axios.get('https://hoteltips.onrender.com/api/users/me', {config});
             setUserContext(oldValues => {
                 return { ...oldValues, details: res.data };
             });
@@ -59,16 +57,14 @@ function App() {
 
     const config = {
       withCredentials: true,
-      crossDomain: true,
       headers: {
           "Content-Type": "application/json",
-          Accept: 'application/json',
            Authorization: `Bearer ${userContext.token}`,
         },
       credentials: "included"  
   }
      
-     const res = await axios.post('https://hoteltips.onrender.com/api/auth/refreshtoken', null, config);
+     const res = await axios.post('https://hoteltips.onrender.com/api/auth/refreshtoken', {config});
 
      if(res.statusText === 'OK') {
        setUserContext(oldValues => {
@@ -81,7 +77,7 @@ function App() {
      }
       // call refreshToken every 10 minutes to renew the authentication token.
       setTimeout(verifyUser, 10 * 60 * 1000)
-  },[setUserContext]);
+  },[setUserContext, userContext.token]);
 
   useEffect(() => {
     verifyUser();
