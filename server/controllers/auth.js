@@ -244,7 +244,6 @@ const sendToken = (user, statusCode, res) => {
     user.refreshToken.push({refreshToken});
     user.save();
     res.cookie('refreshToken', refreshToken, {
-        sameSite: "none",
         httpOnly: true,
         signed: true,
         maxAge: 60 * 60 * 24 * 30 * 1000
