@@ -40,9 +40,17 @@ app.use(express.json());
 
 app.use(cors(
   {
-    origin: "https://hoteltips.netlify.app",
+    origin: [
+      "https://hoteltips.netlify.app",
+      "http://localhost:3000"
+    ],
     credentials: true,
-
+    methods: ['GET', 'PUT', 'POST', 'DELETE', 'OPTIONS'],
+    allowedHeaders: [
+      'Access-Control-Allow-Origin',
+      'Content-Type',
+      'Authorization',
+    ],
   }
 ));
 
