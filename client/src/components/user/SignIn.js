@@ -53,7 +53,6 @@ export default function SignIn() {
       headers: {
           "Content-Type": "application/json",
           Accept: 'application/json',
-          'Access-Control-Allow-Origin': 'https://hoteltips.netlify.app',
            Authorization: `Bearer ${userContext.token}`,
         },
       credentials: "included"  

@@ -26,7 +26,6 @@ function App() {
       headers: {
           "Content-Type": "application/json",
           Accept: 'application/json',
-          'Access-Control-Allow-Origin': 'https://hoteltips.netlify.app',
            Authorization: `Bearer ${userContext.token}`,
         },
       credentials: "included"  
@@ -64,7 +63,6 @@ function App() {
       headers: {
           "Content-Type": "application/json",
           Accept: 'application/json',
-          'Access-Control-Allow-Origin': 'https://hoteltips.netlify.app',
            Authorization: `Bearer ${userContext.token}`,
         },
       credentials: "included"  
