@@ -21,14 +21,18 @@ function App() {
 
   const fetchUserDetails = useCallback(async () => {
     const config = {
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${userContext.token}`,
-          },
-        credentials: "included"  
-    }
+      withCredentials: true,
+      crossDomain: true,
+      headers: {
+          "Content-Type": "application/json",
+          Accept: 'application/json',
+          'Access-Control-Allow-Origin': 'https://hoteltips.netlify.app',
+           Authorization: `Bearer ${userContext.token}`,
+        },
+      credentials: "included"  
+  }
 
-    const res = await axios.get('https://hoteltips.onrender.com/api/users/me', config, { withCredentials: true });
+    const res = await axios.get('https://hoteltips.onrender.com/api/users/me', null, config);
             setUserContext(oldValues => {
                 return { ...oldValues, details: res.data };
             });
@@ -55,15 +59,18 @@ function App() {
   const verifyUser = useCallback(async () => {
 
     const config = {
+      withCredentials: true,
+      crossDomain: true,
       headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${userContext.token}`,
+          Accept: 'application/json',
+          'Access-Control-Allow-Origin': 'https://hoteltips.netlify.app',
+           Authorization: `Bearer ${userContext.token}`,
         },
       credentials: "included"  
   }
      
-     
-     const res = await axios.post('https://hoteltips.onrender.com/api/auth/refreshtoken', config, { withCredentials: true });
+     const res = await axios.post('https://hoteltips.onrender.com/api/auth/refreshtoken', null, config);
 
      if(res.statusText === 'OK') {
        setUserContext(oldValues => {

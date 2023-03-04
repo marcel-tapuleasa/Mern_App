@@ -93,12 +93,16 @@ const {title, location, description, price, id, classes, toggle} = props;
 
 
         const config = {
-            headers: {
-              "Content-Type": 'application/json',
-              "Authorization": `Bearer: ${userContext.token}`
-            }
-            
-          }
+          withCredentials: true,
+          crossDomain: true,
+          headers: {
+              "Content-Type": "application/json",
+              Accept: 'application/json',
+              'Access-Control-Allow-Origin': 'https://hoteltips.netlify.app',
+               Authorization: `Bearer ${userContext.token}`,
+            },
+          credentials: "included"  
+      }
 
         const promise = axios.put(`https://hoteltips.onrender.com/hotels/${id}/edit`, 
                                       { title: values.title, 

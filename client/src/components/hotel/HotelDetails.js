@@ -91,16 +91,18 @@ function HotelDetails (props) {
     useEffect(() => {
         // console.log('1st UseEffect');
         async function getData() {
-            const config = {
-                credentials: "include",
-                withCredentials: true,
-                headers: {
-                  "Content-Type": 'application/json',
-                  "Authorization": `Bearer: ${userContext.token}`
-                }
-                
-              }
-            let res = await axios.get(`https://hoteltips.onrender.com/hotels/${id}`, {config});
+          const config = {
+            withCredentials: true,
+            crossDomain: true,
+            headers: {
+                "Content-Type": "application/json",
+                Accept: 'application/json',
+                'Access-Control-Allow-Origin': 'https://hoteltips.netlify.app',
+                 Authorization: `Bearer ${userContext.token}`,
+              },
+            credentials: "included"  
+        }
+            let res = await axios.get(`https://hoteltips.onrender.com/hotels/${id}`, null, config);
             setDetails(prev => res.data);
             setAuthor(res.data.author.username);
         
@@ -114,15 +116,17 @@ function HotelDetails (props) {
   
 
     const removeHotel = async (id) => {
-        const config = {
-            credentials: "include",
-            withCredentials: true,
-            headers: {
-              "Content-Type": 'application/json',
-              "Authorization": `Bearer: ${userContext.token}`
-            }
-            
-          }
+      const config = {
+        withCredentials: true,
+        crossDomain: true,
+        headers: {
+            "Content-Type": "application/json",
+            Accept: 'application/json',
+            'Access-Control-Allow-Origin': 'https://hoteltips.netlify.app',
+             Authorization: `Bearer ${userContext.token}`,
+          },
+        credentials: "included"  
+    }
        const promise =  axios.delete(`https://hoteltips.onrender.com/hotels/${id}`, {_id:id}, config);
        toast.promise(promise, {
         pending: {
