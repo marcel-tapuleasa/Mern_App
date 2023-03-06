@@ -38,8 +38,10 @@ app.use(express.json());
 //   credentials: true,
 // }
 
-app.use(cors({
-  origin: "https://hoteltips.netlify.app/"}
+app.use(cors(
+  // {
+  // origin: "https://hoteltips.netlify.app/"
+  // }
 ));
 
 app.use(express.static('public'));
