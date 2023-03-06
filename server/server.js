@@ -38,16 +38,7 @@ app.use(express.json());
 //   credentials: true,
 // }
 
-app.use(cors(
-  {
-    origin: [
-      "https://hoteltips.netlify.app",
-      "http://localhost:3000"
-    ],
-    credentials: true,
-    methods: ['GET', 'PUT', 'POST', 'DELETE', 'OPTIONS'],
-  }
-));
+app.use(cors());
 
 app.use(express.static('public'));
 

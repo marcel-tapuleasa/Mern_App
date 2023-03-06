@@ -11,6 +11,7 @@ const multer = require('multer');
 const { storage } = require('../cloudinary');
 // const hotels = require('../models/hotels');
 const { authorize } = require('passport');
+const { NONAME } = require('dns');
 const upload = multer({ storage });
 
 
@@ -246,8 +247,9 @@ const sendToken = (user, statusCode, res) => {
     res.cookie('refreshToken', refreshToken, {
         httpOnly: true,
         signed: true,
+        sameSite: 'none',
+        secure: true,
         maxAge: 60 * 60 * 24 * 30 * 1000,
-        SameSite: 'none'
         
     })
     res.status(statusCode).json({
