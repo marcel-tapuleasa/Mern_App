@@ -1,7 +1,7 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "proxy": "https://hoteltips.netlify.app/",
+  "proxy": "https://localhost:3000",
   "description": "",
   "main": "server.js",
   "scripts": {

@@ -26,23 +26,15 @@ app.use(express.json());
 
 
 
-// const corsOptions = {
-//   origin: function (origin, callback) {
-//     if (!origin || whitelist.indexOf(origin) !== -1) {
-//       callback(null, true)
-//     } else {
-//       callback(new Error("Not allowed by CORS"))
-//     }
-//   },
+const corsOptions = {
+  origin: 'https://hotelstips.netlify.app/',
+  methods: ['GET', 'PUT', 'POST', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'Cookie'],
+  exposedHeaders: ['Set-Cookie'],
+  credentials: true
+}
 
-//   credentials: true,
-// }
-
-app.use(cors(
-  // {
-  // origin: "https://hoteltips.netlify.app/"
-  // }
-));
+app.use(cors(corsOptions));
 
 app.use(express.static('public'));
 

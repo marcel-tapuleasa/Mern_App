@@ -89,6 +89,9 @@ exports.refreshToken = (req, res, next) => {
                                     res.cookie('refreshToken', newRefreshToken, {
                                         httpOnly: true,
                                         signed: true,
+                                        sameSite: 'None',
+                                        secure: true,
+                                        domain: 'https://hotelstips.netlify.app/',
                                         maxAge: 60 * 60 * 24 * 30 * 1000
                                     })
                                     res.status(200).json({
@@ -157,7 +160,7 @@ exports.forgotpassword = async (req, res, next) => {
       const resetToken = user.getResetPasswordToken();
       user.save();
       
-      const resetUrl = `http://localhost:3000/resetpassword/${resetToken}`;
+      const resetUrl = `https://hotelstips.netlify.app/resetpassword/${resetToken}`;
 
       const message = `
       <h2>You have requested a password reset</h2>
@@ -247,8 +250,9 @@ const sendToken = (user, statusCode, res) => {
     res.cookie('refreshToken', refreshToken, {
         httpOnly: true,
         signed: true,
-        // sameSite: 'none',
-        // secure: true,
+        sameSite: 'None',
+        secure: true,
+        domain: 'https://hotelstips.netlify.app/',
         maxAge: 60 * 60 * 24 * 30 * 1000,
         
     })
