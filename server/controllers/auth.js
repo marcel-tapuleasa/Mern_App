@@ -11,7 +11,6 @@ const multer = require('multer');
 const { storage } = require('../cloudinary');
 // const hotels = require('../models/hotels');
 const { authorize } = require('passport');
-const { NONAME } = require('dns');
 const upload = multer({ storage });
 
 

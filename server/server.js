@@ -11,7 +11,7 @@ const mongoSanitize = require('express-mongo-sanitize');
 
 
 
-const cors = require('cors');
+// const cors = require('cors');
 const ExpressError = require('./utils/ExpressError'); 
 const hotelRoutes = require('./routes/hotels');
 const reviewRoutes = require('./routes/reviews');
@@ -26,16 +26,29 @@ app.use(express.json());
 
 
 
-const corsOptions = {
-  origin: 'https://hotelstips.netlify.app',
-  "Access-Control-Allow-Origin": 'https://hotelstips.netlify.app',
-  methods: ['GET', 'PUT', 'POST', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'Cookie', 'Access-Control-Allow-Origin'],
-  exposedHeaders: ['Set-Cookie'],
-  credentials: true
-}
+// const corsOptions = {
+//   origin: 'https://hotelstips.netlify.app',
+//   // Access-Control-Allow-Origin: https://hotelstips.netlify.app,
+//   methods: ['GET', 'PUT', 'POST', 'DELETE', 'OPTIONS'],
+//   allowedHeaders: ['Content-Type', 'Authorization', 'Cookie', 'Access-Control-Allow-Origin'],
+//   exposedHeaders: ['Set-Cookie'],
+//   credentials: true
+// }
 
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
+
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content, Accept, Content-Type, Authorization"
+  );
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, PUT, DELETE, PATCH, OPTIONS"
+  );
+  next();
+});
 
 app.use(express.static('public'));
 
