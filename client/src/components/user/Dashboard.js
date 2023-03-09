@@ -34,11 +34,11 @@ const Dashboard = () => {
   const logout = () => {
 
     const config = {
-      credentials: "include",
       withCredentials: true,
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${userContext.token}`
+        "Authorization": `Bearer ${userContext.token}`,
+        "Cookie": 'refreshToken'
       }
     };
 

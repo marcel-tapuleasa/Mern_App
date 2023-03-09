@@ -32,11 +32,13 @@ function Review (props) {
     const deleteReviews = async () =>{
 
         const config = {
-            credentials: "include",
+            
             headers: {
               "Content-Type": 'application/json',
-              "Authorization": `Bearer: ${userContext.token}`
-            }
+              "Authorization": `Bearer ${userContext.token}`,
+              "Cookie": 'refreshToken'
+            },
+            withCredentials: true
         };
 
         await axios.delete(`https://hoteltips.onrender.com/hotels/${hotelId}/reviews/${props.review._id}`, config);

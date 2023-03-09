@@ -51,11 +51,12 @@ function AddReviewForm(props) {
         const {body, rating, id} = values;
 
         const config = {
-            credentials: "include",
             headers: {
               "Content-Type": 'application/json',
-              "Authorization": `Bearer: ${userContext.token}`
-            }
+              "Authorization": `Bearer ${userContext.token}`,
+              "Cookie": 'refreshToken'
+            },
+            withCredentials: true
         };
             
 

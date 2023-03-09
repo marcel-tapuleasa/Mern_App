@@ -48,12 +48,10 @@ export default function SignIn() {
     const {email, password} = values;
 
     const config = {
-      withCredentials: true,
       headers: {
           "Content-Type": "application/json",
-           Authorization: `Bearer ${userContext.token}`,
+          //  Authorization: `Bearer ${userContext.token}`,
         },
-      credentials: "included"  
   }
 
     try {

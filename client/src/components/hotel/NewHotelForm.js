@@ -109,11 +109,12 @@ function NewHotelForm (props) {
 
 
     const config = {
-      credentials: "include",
       headers: {
         "Content-Type": "multipart/form-data",
-        "Authorization": `Bearer: ${userContext.token}`
-      }
+        "Authorization": `Bearer ${userContext.token}`,
+        "Cookie": 'refreshToken'
+      },
+      withCredentials: true
       
     }
     const promise = axios.post('https://hoteltips.onrender.com/hotels/new', formData, config );

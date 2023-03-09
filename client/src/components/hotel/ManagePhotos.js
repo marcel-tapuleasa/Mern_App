@@ -139,8 +139,10 @@ function ManagePhotos(props) {
         const config = {
             headers: {
               "Content-Type": 'multiform/form-data',
-              "Authorization": `Bearer: ${userContext.token}`
-            }
+              "Authorization": `Bearer ${userContext.token}`,
+              "Cookie": 'refreshToken'
+            },
+            withCredentials: true
             
           }
 
@@ -184,8 +186,10 @@ function ManagePhotos(props) {
       const config = {
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer: ${userContext.token}` 
-        }
+          "Authorization": `Bearer ${userContext.token}`,
+          "Cookie": 'refreshToken' 
+        },
+        withCredentials: true
       };
 
      const promise = axios.put(`https://hoteltips.onrender.com/hotels/${id}/deletephotos`, {deleteImages: checkedImagestoDelete}, config,  )

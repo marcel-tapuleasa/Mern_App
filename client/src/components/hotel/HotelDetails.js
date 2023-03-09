@@ -91,14 +91,15 @@ function HotelDetails (props) {
     useEffect(() => {
         // console.log('1st UseEffect');
         async function getData() {
+
           const config = {
-            withCredentials: true,
             headers: {
                 "Content-Type": "application/json",
-                 Authorization: `Bearer ${userContext.token}`,
+                "Authorization": `Bearer ${userContext.token}`,
+                "Cookie": 'refreshToken'
               },
-            credentials: "included"  
-        }
+            withCredentials: true  
+          }
             let res = await axios.get(`https://hoteltips.onrender.com/hotels/${id}`, config);
             setDetails(prev => res.data);
             setAuthor(res.data.author.username);
@@ -113,14 +114,16 @@ function HotelDetails (props) {
   
 
     const removeHotel = async (id) => {
+
       const config = {
-        withCredentials: true,
         headers: {
             "Content-Type": "application/json",
-             Authorization: `Bearer ${userContext.token}`,
+            "Authorization": `Bearer ${userContext.token}`,
+            "Cookie": 'refreshToken'
           },
-        credentials: "included"  
-    }
+        withCredentials: true  
+      }
+
        const promise =  axios.delete(`https://hoteltips.onrender.com/hotels/${id}`, {_id:id}, config);
        toast.promise(promise, {
         pending: {

@@ -16,6 +16,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import Tooltip from "@mui/material/Tooltip";
 
 import { toast } from 'react-toastify';
+import { refreshToken } from "../../../../server/controllers/auth";
 
 // const theme = createTheme({
 //   [theme.breakpoints.down('md')]: {
@@ -93,12 +94,12 @@ const {title, location, description, price, id, classes, toggle} = props;
 
 
         const config = {
-          withCredentials: true,
           headers: {
               "Content-Type": "application/json",
-               Authorization: `Bearer ${userContext.token}`,
+               "Authorization": `Bearer ${userContext.token}`,
+               "Cookie": 'refreshToken'
             },
-          credentials: "included"  
+          withCredentials: true  
       }
 
         const promise = axios.put(`https://hoteltips.onrender.com/hotels/${id}/edit`, 

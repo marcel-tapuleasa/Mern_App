@@ -14,12 +14,13 @@ function UserDashboard(props) {
     useEffect(() => {
         async function getHotelData() {
             const config = {
-                credentials: "include",
-                withCredentials: true,
+        
                 headers: {
                   "Content-Type": 'application/json',
-                  "Authorization": `Bearer: ${userContext.token}`
-                }
+                  "Authorization": `Bearer ${userContext.token}`,
+                  "Cookie": 'refreshToken'  
+                },
+                withCredentials: true
                 
               }
          const res = await axios.get(`https://hoteltips.onrender.com/api/auth/userhotels/${userContext.details._id}`, config);    

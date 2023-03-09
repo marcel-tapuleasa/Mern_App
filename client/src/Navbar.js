@@ -78,23 +78,24 @@ const Navbar = () => {
   const logout = () => {
 
     const config = {
-      credentials: "include",
-      withCredentials: true,
+
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${userContext.token}`
-      }
+        "Authorization": `Bearer ${userContext.token}`,
+        "Cookie": 'refreshToken'
+      },
+      withCredentials: true
     };
 
-    axios.get('https://hoteltips.onrender.com/api/auth/logout', config)
+    axios.get('https://hoteltips.onrender.com/api/auth/logout', config,)
     .then(async response => {
       setUserContext(oldValues => {
         return { ...oldValues, token: null, details: {} }
       })
-      window.localStorage.setItem("logout", Date.now());
+      window.localStorage.setItem("logout", Date.now())
       navigate('/login')
     })
-  };
+  }
 
 
 

@@ -61,12 +61,14 @@ function UserPhoto(props) {
         formData.append('avatarImage', selectedFile);
 
         const config = {
-            credentials: "include",
-            withCredentials: true,
             headers: {
-              "Authorization": `Bearer: ${userContext.token}`
-            }
-        }
+              "Content-Type": 'multiform/form-data',
+              "Authorization": `Bearer ${userContext.token}`,
+              "Cookie": 'refreshToken'
+            },
+            withCredentials: true
+            
+          }
 
         const res = axios.put(`https://hoteltips.onrender.com/api/auth/useravatarimage/${userContext.details._id}`, formData, config );
 

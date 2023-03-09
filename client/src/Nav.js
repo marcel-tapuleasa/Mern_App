@@ -29,17 +29,20 @@ const LightTooltip = styled(({ className, ...props }) => (
 
 const Nav = () => {
     const navigate = useNavigate();
+
     const logout = () => {
 
         const config = {
-          credentials: "include",
+
           headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${userContext.token}`
-          }
+            "Authorization": `Bearer ${userContext.token}`,
+            "Cookie": 'refreshToken'
+          },
+          withCredentials: true
         };
     
-        axios.get('https://hoteltips.onrender.com/api/auth/logout', config, {withCredentials: true})
+        axios.get('https://hoteltips.onrender.com/api/auth/logout', config,)
         .then(async response => {
           setUserContext(oldValues => {
             return { ...oldValues, token: null, details: {} }
