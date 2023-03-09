@@ -140,7 +140,7 @@ function ManagePhotos(props) {
             headers: {
               "Content-Type": 'multiform/form-data',
               "Authorization": `Bearer ${userContext.token}`,
-              "Cookie": 'refreshToken'
+              // "Cookie": 'refreshToken'
             },
             withCredentials: true
             
@@ -187,7 +187,7 @@ function ManagePhotos(props) {
         headers: {
           "Content-Type": "application/json",
           "Authorization": `Bearer ${userContext.token}`,
-          "Cookie": 'refreshToken' 
+          // "Cookie": 'refreshToken' 
         },
         withCredentials: true
       };

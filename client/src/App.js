@@ -23,8 +23,8 @@ function App() {
     const config = {
       headers: {
           "Content-Type": "application/json",
-           Authorization: `Bearer ${userContext.token}`,
-           "Cookie": 'refreshToken'
+           "Authorization": `Bearer ${userContext.token}`,
+          //  "Cookie": 'refreshToken'
         },
       withCredentials: true  
   }
@@ -58,13 +58,13 @@ function App() {
     const config = {
       headers: {
           "Content-Type": "application/json",
-           Authorization: `Bearer ${userContext.token}`,
-           "Cookie": 'refreshToken'
+           "Authorization": `Bearer ${userContext.token}`,
+          //  "Cookie": 'refreshToken'
         },
       withCredentials: true  
   }
      
-     const res = await axios.post('https://hoteltips.onrender.com/api/auth/refreshtoken', config);
+     const res = await axios.post('https://hoteltips.onrender.com/api/auth/refreshtoken', null, config);
 
      if(res.statusText === 'OK') {
        setUserContext(oldValues => {

@@ -64,7 +64,7 @@ function UserPhoto(props) {
             headers: {
               "Content-Type": 'multiform/form-data',
               "Authorization": `Bearer ${userContext.token}`,
-              "Cookie": 'refreshToken'
+            //   "Cookie": 'refreshToken'
             },
             withCredentials: true
             

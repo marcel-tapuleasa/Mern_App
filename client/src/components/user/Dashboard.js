@@ -38,7 +38,7 @@ const Dashboard = () => {
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${userContext.token}`,
-        "Cookie": 'refreshToken'
+        // "Cookie": 'refreshToken'
       }
     };
 

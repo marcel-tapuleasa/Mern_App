@@ -112,7 +112,7 @@ function NewHotelForm (props) {
       headers: {
         "Content-Type": "multipart/form-data",
         "Authorization": `Bearer ${userContext.token}`,
-        "Cookie": 'refreshToken'
+        // "Cookie": 'refreshToken'
       },
       withCredentials: true
       

@@ -96,7 +96,7 @@ const {title, location, description, price, id, classes, toggle} = props;
           headers: {
               "Content-Type": "application/json",
                "Authorization": `Bearer ${userContext.token}`,
-               "Cookie": 'refreshToken'
+              //  "Cookie": 'refreshToken'
             },
           withCredentials: true  
       }

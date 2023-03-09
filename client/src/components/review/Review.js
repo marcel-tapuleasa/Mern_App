@@ -36,12 +36,12 @@ function Review (props) {
             headers: {
               "Content-Type": 'application/json',
               "Authorization": `Bearer ${userContext.token}`,
-              "Cookie": 'refreshToken'
+            //   "Cookie": 'refreshToken'
             },
             withCredentials: true
         };
 
-        await axios.delete(`https://hoteltips.onrender.com/hotels/${hotelId}/reviews/${props.review._id}`, config);
+        await axios.delete(`https://hoteltips.onrender.com/hotels/${hotelId}/reviews/${props.review._id}`, null, config);
         props.toggleUpdate();
     }
 
