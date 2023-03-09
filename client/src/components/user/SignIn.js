@@ -55,7 +55,7 @@ export default function SignIn() {
   }
 
     try {
-      const { data } = await axios.post('https://hoteltips.onrender.com/api/auth/login', {email, password}, config);
+      const { data } = await axios.post('/api/auth/login', {email, password}, config);
 
       setUserContext(oldValues => {
         return { ...oldValues, token: data.token, details: data.user}

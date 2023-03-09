@@ -100,7 +100,7 @@ function HotelDetails (props) {
               },
             withCredentials: true  
           }
-            let res = await axios.get(`https://hoteltips.onrender.com/hotels/${id}`, config);
+            let res = await axios.get(`/hotels/${id}`, config);
             setDetails(prev => res.data);
             setAuthor(res.data.author.username);
         
@@ -119,12 +119,14 @@ function HotelDetails (props) {
         headers: {
             "Content-Type": "application/json",
             "Authorization": `Bearer ${userContext.token}`,
+            "Access-Control-Allow-Origin:": 'https://hotelstips.netlify.app'
+
             // "Cookie": 'refreshToken'
           },
         withCredentials: true  
       }
 
-       const promise =  axios.delete(`https://hoteltips.onrender.com/hotels/${id}`, {_id:id}, config);
+       const promise =  axios.delete(`/hotels/${id}`, {_id:id}, config);
        toast.promise(promise, {
         pending: {
           render: 'Deleting your hotel...',
