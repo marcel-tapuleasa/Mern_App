@@ -29,7 +29,7 @@ function App() {
       withCredentials: true  
   }
 
-    const res = await axios.get('/api/users/me', config);
+    const res = await axios.get('https://hoteltips.onrender.com/api/users/me', config);
             setUserContext(oldValues => {
                 return { ...oldValues, details: res.data };
             });
@@ -64,7 +64,7 @@ function App() {
       withCredentials: true  
   }
      
-     const res = await axios.post('/api/auth/refreshtoken', null, config);
+     const res = await axios.post('https://hoteltips.onrender.com/api/auth/refreshtoken', null, config);
 
      if(res.statusText === 'OK') {
        setUserContext(oldValues => {
