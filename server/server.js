@@ -27,7 +27,7 @@ app.use(express.json());
 
 
 const corsOptions = {
-  origin: 'https://hotelstips.netlify.app/',
+  origin: 'https://hotelstips.netlify.app',
   methods: ['GET', 'PUT', 'POST', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'Cookie'],
   exposedHeaders: ['Set-Cookie'],
