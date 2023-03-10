@@ -55,6 +55,8 @@ function App() {
 
   const verifyUser = useCallback(async () => {
 
+    if(!userContext.token || userContext.token !== null) {return;};
+
     const config = {
       headers: {
           "Content-Type": "application/json",
