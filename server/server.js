@@ -21,11 +21,6 @@ connectDB();
 
 const app = express();
 
-
-app.use(express.json());
-
-
-
 const corsOptions = {
   origin: 'https://hotelstips.netlify.app',
   // Access-Control-Allow-Origin: https://hotelstips.netlify.app,
@@ -36,6 +31,12 @@ const corsOptions = {
 }
 
 app.use(cors(corsOptions));
+
+app.use(express.json());
+
+
+
+
 
 // app.use((req, res, next) => {
 //   res.setHeader("Access-Control-Allow-Origin", "https://hotelstips.netlify.app");
