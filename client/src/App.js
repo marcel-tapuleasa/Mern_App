@@ -55,7 +55,7 @@ function App() {
 
   const verifyUser = useCallback(async () => {
 
-    if(!userContext.token || userContext.token !== null) {return;};
+    if(!userContext.token || userContext.token === null) {return;};
 
     const config = {
       headers: {
@@ -79,7 +79,7 @@ function App() {
      }
       // call refreshToken every 10 minutes to renew the authentication token.
       setTimeout(verifyUser, 10 * 60 * 1000)
-  },[setUserContext]);
+  },[setUserContext, userContext.token]);
 
   useEffect(() => {
     verifyUser();
