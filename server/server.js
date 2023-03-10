@@ -31,7 +31,7 @@ const corsOptions = {
   // Access-Control-Allow-Origin: https://hotelstips.netlify.app,
   methods: ['GET', 'PUT', 'POST', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'Cookie', 'Access-Control-Allow-Origin'],
-  exposedHeaders: ['Set-Cookie'],
+  exposedHeaders: ['Set-Cookie', 'Content-Type', 'Authorization', 'Cookie', 'Access-Control-Allow-Origin'],
   credentials: true
 }
 
