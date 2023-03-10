@@ -22,7 +22,7 @@ router.route('/login').post(login);
 
 router.route('/logout').get(logout);
 
-router.route('/refreshtoken').post(refreshToken);
+router.route('/refreshtoken').post(protect, refreshToken);
 
 router.route('/forgotpassword').post(forgotpassword);
 
