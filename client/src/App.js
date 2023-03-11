@@ -60,7 +60,7 @@ function App() {
     const config = {
       headers: {
           "Content-Type": "application/json",
-           "Authorization": `Bearer ${userContext.token}`,
+           "Authorization": `Bearer ${JSON.stringify(userContext.token)}`,
           //  "Cookie": 'refreshToken'
         },
       withCredentials: true  
