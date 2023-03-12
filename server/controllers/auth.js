@@ -90,7 +90,7 @@ exports.refreshToken = (req, res, next) => {
                                         signed: true,
                                         sameSite: 'None',
                                         secure: true,
-                                        domain: 'https://hotelstips.netlify.app',
+                                        // domain: 'https://hotelstips.netlify.app',
                                         maxAge: 60 * 60 * 24 * 30 * 1000
                                     })
                                     res.status(200).json({
@@ -251,7 +251,7 @@ const sendToken = (user, statusCode, res) => {
         signed: true,
         sameSite: 'None',
         secure: true,
-        domain: 'https://hotelstips.netlify.app',
+        // domain: 'https://hotelstips.netlify.app',
         maxAge: 60 * 60 * 24 * 30 * 1000,
         
     })
