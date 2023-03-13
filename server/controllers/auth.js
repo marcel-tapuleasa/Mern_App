@@ -86,7 +86,7 @@ exports.refreshToken =  async (req, res, next) => {
                                 }
                                 else {
                                     res.cookie('refreshToken', newRefreshToken, {
-                                        httpOnly: true,
+                                        // httpOnly: true,
                                         signed: true,
                                         sameSite: "None",
                                         secure: true,
@@ -247,7 +247,7 @@ const sendToken = (user, statusCode, res) => {
     user.refreshToken.push({refreshToken});
     user.save();
     res.cookie('refreshToken', refreshToken, {
-        httpOnly: true,
+        // httpOnly: true,
         signed: true,
         sameSite: "None",
         secure: true,
