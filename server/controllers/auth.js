@@ -88,7 +88,7 @@ exports.refreshToken =  async (req, res, next) => {
                                     res.cookie('refreshToken', newRefreshToken, {
                                         httpOnly: true,
                                         signed: true,
-                                        sameSite: "none",
+                                        sameSite: "None",
                                         secure: true,
                                         domain: 'https://hotelstips.netlify.app',
                                         maxAge: 60 * 60 * 24 * 30 * 1000
@@ -249,7 +249,7 @@ const sendToken = (user, statusCode, res) => {
     res.cookie('refreshToken', refreshToken, {
         httpOnly: true,
         signed: true,
-        sameSite: "none",
+        sameSite: "None",
         secure: true,
         domain: 'https://hotelstips.netlify.app',
         maxAge: 60 * 60 * 24 * 30 * 1000,
