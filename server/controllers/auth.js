@@ -80,7 +80,7 @@ exports.refreshToken =  async (req, res, next) => {
                             // console.log(`This is the new refreshToken ${newRefreshToken}`)
                             user.refreshToken[tokenIndex] = { refreshToken: newRefreshToken }
 
-                            await user.save((err, user) => {
+                            user.save((err, user) => {
                                 if(err) {
                                     return next(new ExpressError('Something went wrong', 500))
                                 }
