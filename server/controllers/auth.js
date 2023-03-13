@@ -52,7 +52,7 @@ exports.login = async (req, res, next) => {
 
 
 
-exports.refreshToken = (req, res, next) => {
+exports.refreshToken =  async (req, res, next) => {
   const { signedCookies = {} } = req
   const { refreshToken } = signedCookies
     // console.log(`This is the refreshToken in cookie: ${refreshToken}`);
@@ -62,7 +62,7 @@ exports.refreshToken = (req, res, next) => {
         try {
             const payload = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
             const userId = payload.id;
-            User.findOne({_id: userId }).then(
+            await User.findOne({_id: userId }).then(
                 user => {
                     if(user) {
                         const tokenIndex = user.refreshToken.findIndex(
@@ -80,7 +80,7 @@ exports.refreshToken = (req, res, next) => {
                             // console.log(`This is the new refreshToken ${newRefreshToken}`)
                             user.refreshToken[tokenIndex] = { refreshToken: newRefreshToken }
 
-                            user.save((err, user) => {
+                            await user.save((err, user) => {
                                 if(err) {
                                     return next(new ExpressError('Something went wrong', 500))
                                 }
@@ -88,9 +88,9 @@ exports.refreshToken = (req, res, next) => {
                                     res.cookie('refreshToken', newRefreshToken, {
                                         httpOnly: true,
                                         signed: true,
-                                        sameSite: 'None',
+                                        sameSite: "none",
                                         secure: true,
-                                        // domain: 'https://hotelstips.netlify.app',
+                                        domain: 'https://hotelstips.netlify.app',
                                         maxAge: 60 * 60 * 24 * 30 * 1000
                                     })
                                     res.status(200).json({
@@ -249,9 +249,9 @@ const sendToken = (user, statusCode, res) => {
     res.cookie('refreshToken', refreshToken, {
         httpOnly: true,
         signed: true,
-        sameSite: 'None',
+        sameSite: "none",
         secure: true,
-        // domain: 'https://hotelstips.netlify.app',
+        domain: 'https://hotelstips.netlify.app',
         maxAge: 60 * 60 * 24 * 30 * 1000,
         
     })
