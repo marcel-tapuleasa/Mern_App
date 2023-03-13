@@ -58,7 +58,9 @@ app.use(express.static('public'));
 
 app.use(express.urlencoded({extended: true}));
 
-app.use(cookieParser(process.env.COOKIE_SECRET));
+app.use(cookieParser(
+  // process.env.COOKIE_SECRET
+  ));
 
 app.use(
   mongoSanitize({
