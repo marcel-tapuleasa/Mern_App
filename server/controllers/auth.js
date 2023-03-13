@@ -53,8 +53,12 @@ exports.login = async (req, res, next) => {
 
 
 exports.refreshToken =  async (req, res, next) => {
-  const { signedCookies = {} } = req
-  const { refreshToken } = signedCookies
+//   const { signedCookies = {} } = req
+//   const { refreshToken } = signedCookies
+
+const { refreshToken } = req.cookies;
+
+
     // console.log(`This is the refreshToken in cookie: ${refreshToken}`);
 
     if(refreshToken) {
@@ -86,8 +90,8 @@ exports.refreshToken =  async (req, res, next) => {
                                 }
                                 else {
                                     res.cookie('refreshToken', newRefreshToken, {
-                                        // httpOnly: true,
-                                        signed: true,
+                                        httpOnly: true,
+                                        // signed: true,
                                         sameSite: "None",
                                         secure: true,
                                         domain: 'https://hotelstips.netlify.app',
@@ -114,8 +118,11 @@ exports.refreshToken =  async (req, res, next) => {
 }
 
 exports.logout =  (protect, (req, res, next) => {
-    const { signedCookies = {} } = req
-    const { refreshToken } = signedCookies;
+    // const { signedCookies = {} } = req
+    // const { refreshToken } = signedCookies;
+
+    const { refreshToken } = req.cookies;
+
 
     const payload = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
     const userId = payload.id;
@@ -247,8 +254,8 @@ const sendToken = (user, statusCode, res) => {
     user.refreshToken.push({refreshToken});
     user.save();
     res.cookie('refreshToken', refreshToken, {
-        // httpOnly: true,
-        signed: true,
+        httpOnly: true,
+        // signed: true,
         sameSite: "None",
         secure: true,
         domain: 'https://hotelstips.netlify.app',
