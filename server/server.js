@@ -5,7 +5,7 @@ if (process.env.NODE_ENV !== "production") {
 const express = require('express');
 const connectDB = require('./config/db');
 const errorHandler = require('./middleware/error');
-const cookieParser = require('cookie-parser');
+// const cookieParser = require('cookie-parser');
 const mongoSanitize = require('express-mongo-sanitize');
 // const helmet = require("helmet");
 
@@ -22,17 +22,17 @@ connectDB();
 const app = express();
 
 const corsOptions = {
-  origin: 'https://hotelstips.netlify.app',
+  origin: ['https://hotelstips.netlify.app'],
   // Access-Control-Allow-Origin: https://hotelstips.netlify.app,
   methods: ['GET', 'PUT', 'POST', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'Cookie', 'Access-Control-Allow-Origin'],
-  exposedHeaders: ['Set-Cookie', 'Content-Type', 'Authorization', 'Cookie', 'Access-Control-Allow-Origin'],
+  exposedHeaders: ['Set-Cookie', 'Content-Type', 'Authorization', 'Access-Control-Allow-Origin'],
   credentials: true
 }
 
 app.use(cors(corsOptions));
 
-app.set("trust proxy", 1);
+// app.set("trust proxy", 1);
 
 app.use(express.json());
 
@@ -58,15 +58,16 @@ app.use(express.static('public'));
 
 app.use(express.urlencoded({extended: true}));
 
-app.use(cookieParser(
-  process.env.COOKIE_SECRET
-  ));
+// app.use(cookieParser(
+//   process.env.COOKIE_SECRET
+//   ));
 
-// app.use(
-//   mongoSanitize({
-//     replaceWith: '_',
-//   }),
-// );
+app.use(
+  mongoSanitize({
+    replaceWith: '_',
+    allowDots: true
+  }),
+);
 
 // app.use(helmet());
 
