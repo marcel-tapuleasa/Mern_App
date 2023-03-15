@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import axios from 'axios';
+import axiosRender from '../../utils/axios';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -21,7 +21,7 @@ function Review (props) {
 
     useEffect(() => {
         async function getReviewDetails() {
-            let res = await axios.get(`https://hoteltips.onrender.com/hotels/${hotelId}/reviews/${props.review._id}/reviewDetails`);
+            let res = await axiosRender.get(`/hotels/${hotelId}/reviews/${props.review._id}/reviewDetails`);
             // console.log('UseEffect Reviews Details!!!');
             setReviewAuthor(res.data.author.username);
         };
@@ -41,7 +41,7 @@ function Review (props) {
             withCredentials: true
         };
 
-        await axios.delete(`https://hoteltips.onrender.com/hotels/${hotelId}/reviews/${props.review._id}`, null, config);
+        await axiosRender.delete(`/hotels/${hotelId}/reviews/${props.review._id}`, null, config);
         props.toggleUpdate();
     }
 

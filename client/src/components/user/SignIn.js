@@ -19,7 +19,8 @@ import { UserContext } from '../../context/UserContext';
 
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import axios from 'axios';
+import axiosRender from '../../utils/axios';
+
 
 const validationSchema = yup.object({
   email: yup
@@ -47,24 +48,24 @@ export default function SignIn() {
 
     const {email, password} = values;
 
-    const config = {
-      headers: {
-          "Content-Type": "application/json",
-          //  Authorization: `Bearer ${userContext.token}`,
-        },
-  }
+  //   const config = {
+  //     headers: {
+  //         "Content-Type": "application/json",
+  //          Authorization: `Bearer ${userContext.token}`,
+  //       },
+  // }
 
     try {
-      const { data } = await axios.post('https://hoteltips.onrender.com/api/auth/login', {email, password}, config);
+      const { data } = await axiosRender.post('/api/auth/login', {email, password});
 
       setUserContext(oldValues => {
         return { ...oldValues, token: data.token, details: data.user}
       })
 
-      // localStorage.setItem('authToken', data.token)
+      localStorage.setItem('refreshToken', JSON.stringify(data.refreshToken));
 
       navigate('/hotels');
-      console.log(userContext)
+      console.log(userContext.token)
 
     } catch (error) {
       setError(error.response.data.error);

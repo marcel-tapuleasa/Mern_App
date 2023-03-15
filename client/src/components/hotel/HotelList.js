@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useContext} from 'react';
-import axios from 'axios';
+import axiosRender from '../../utils/axios';
 import {useNavigate} from 'react-router-dom';
 import Hotel from './Hotel';
 import GeneralMap from './GeneralMap';
@@ -31,7 +31,7 @@ function HotelList(props) {
 
     useEffect(() =>{
         async function getData() {
-            const res = await axios.get('https://hoteltips.onrender.com/hotels');
+            const res = await axiosRender.get('/hotels');
             
             setHotels(res.data);
         }

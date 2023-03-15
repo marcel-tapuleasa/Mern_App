@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
+import axiosRender from "../../utils/axios";
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import TextField from "@mui/material/TextField";
@@ -33,8 +33,8 @@ const ResetPassword = ({ history, match }) => {
     };
 
     
-      const resetPromise = axios.put(
-        `https://hoteltips.onrender.com/api/auth/resetpassword/${resetToken}`,
+      const resetPromise = axiosRender.put(
+        `/api/auth/resetpassword/${resetToken}`,
         {
           password,
         },

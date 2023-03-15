@@ -9,7 +9,7 @@ import {toast} from 'react-toastify';
 import { motion } from 'framer-motion';
 
 
-import axios from 'axios';
+import axiosRender from '../../utils/axios';
 
 const LightTooltip = styled(({ className, ...props }) => (
     <Tooltip {...props} classes={{ popper: className }} />
@@ -70,7 +70,7 @@ function UserPhoto(props) {
             
           }
 
-        const res = axios.put(`https://hoteltips.onrender.com/api/auth/useravatarimage/${userContext.details._id}`, formData, config );
+        const res = axiosRender.put(`/api/auth/useravatarimage/${userContext.details._id}`, formData, config );
 
         await toast.promise(res, {
             pending: {

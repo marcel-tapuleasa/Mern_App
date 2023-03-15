@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import axios from 'axios';
+import axiosRender from '../../utils/axios';
 import {useParams, useNavigate} from 'react-router-dom';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
@@ -59,7 +59,7 @@ function AddReviewForm(props) {
         };
             
 
-        await axios.post(`https://hoteltips.onrender.com/hotels/${id}/reviews`, { body: body, rating: rating}, config)
+        await axiosRender.post(`/hotels/${id}/reviews`, { body: body, rating: rating}, config)
         // console.log('AddReview');
         props.toggleUpdate();
         resetForm({values: ''})

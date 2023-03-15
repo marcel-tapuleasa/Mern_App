@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 // import { UserContext } from '../../context/UserContext';
-import axios from 'axios';
+import axiosRender from '../../utils/axios';
 
 import mapboxgl from 'mapbox-gl';
 mapboxgl.accessToken = 'pk.eyJ1IjoibWFyY2VsdGFwdWxlYXNhIiwiYSI6ImNsODJ0ZGpnbjAwdjczdnA3MnhneWN0c2wifQ._V9xXIB_NXdZiBAdB-4Haw';
@@ -20,7 +20,7 @@ const [zoom, setZoom] = useState(9);
 useEffect(() => {
     // console.log('UseEffect for Geometry!!!')
     async function getGeometry() {
-    const res = await axios.get(`https://hoteltips.onrender.com/hotels/geometry/${props.hotelId}`);
+    const res = await axiosRender.get(`/hotels/geometry/${props.hotelId}`);
     // console.log(`${res.data.coordinates[0]} - ${res.data.coordinates[1]}`)
     setLng(res.data.coordinates[0]);
     setLat(res.data.coordinates[1]);

@@ -1,6 +1,6 @@
 import React, { useContext} from "react";
-import {useNavigate} from 'react-router-dom';
-import axios from 'axios';
+// import {useNavigate} from 'react-router-dom';
+import axiosRender from "../../utils/axios";
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
@@ -17,14 +17,6 @@ import Tooltip from "@mui/material/Tooltip";
 
 import { toast } from 'react-toastify';
 
-// const theme = createTheme({
-//   [theme.breakpoints.down('md')]: {
-//     width: '90%'
-//   },
-//   [theme.breakpoints.up('md')]: {
-//     width: '50%'
-//   }
-// })
 
 const styles = {
 main: {
@@ -70,7 +62,7 @@ const validationSchema = yup.object({
 
 
 function EditHotelForm(props) {
-    let navigate = useNavigate();
+    // let navigate = useNavigate();
 
     const[userContext, setUserContext] = useContext(UserContext);
 
@@ -96,12 +88,13 @@ const {title, location, description, price, id, classes, toggle} = props;
           headers: {
               "Content-Type": "application/json",
                "Authorization": `Bearer ${userContext.token}`,
+               "Access-Control-Allow-Origin:": 'https://hotelstips.netlify.app'
               //  "Cookie": 'refreshToken'
             },
           withCredentials: true  
       }
 
-        const promise = axios.put(`https://hoteltips.onrender.com/hotels/${id}/edit`, 
+        const promise = axiosRender.put(`/hotels/${id}/edit`, 
                                       { title: values.title, 
                                         location: values.location, 
                                         description: values.description, 

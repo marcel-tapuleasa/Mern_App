@@ -8,7 +8,7 @@ import ForgotPassword from './components/user/ForgotPassword';
 import Navbar from './Navbar';
 import Home from './Home';
 import { UserContext } from './context/UserContext';
-import axios from 'axios';
+import axiosRender from './utils/axios';
 import ResetPassword from './components/user/ResetPassword';
 import Dashboard from './components/user/Dashboard';
 
@@ -22,14 +22,14 @@ function App() {
   const fetchUserDetails = useCallback(async () => {
     const config = {
       headers: {
-          "Content-Type": "application/json",
+          // "Content-Type": "application/json",
            "Authorization": `Bearer ${userContext.token}`,
           //  "Cookie": 'refreshToken'
         },
       withCredentials: true  
   }
 
-    const res = await axios.get('https://hoteltips.onrender.com/api/users/me', config);
+    const res = await axiosRender.get('/api/users/me', null, config);
             setUserContext(oldValues => {
                 return { ...oldValues, details: res.data };
             });
@@ -38,9 +38,9 @@ function App() {
 }, [setUserContext, userContext.token]);
 
   useEffect(() => {
-    // console.log('useEffect for Profile!!!')
+    console.log('useEffect for Profile!!!')
     // fetch only when user details are not present
-        if(!userContext.token) return;                   
+        if(!userContext.token || userContext.token === null) return;                   
         if (!userContext.details) {
              fetchUserDetails();
              return () => {
@@ -55,7 +55,7 @@ function App() {
 
   const verifyUser = useCallback(async () => {
 
-    if(!userContext.token || userContext.token === null) {return;};
+    // if(!userContext.token || userContext.token === null) {return;};
 
     const config = {
       headers: {
@@ -65,13 +65,18 @@ function App() {
         },
       withCredentials: true  
   }
+
+  const refreshToken = JSON.parse(localStorage.getItem('refreshToken'));
      
-     const res = await axios.post('https://hoteltips.onrender.com/api/auth/refreshtoken', null, config);
+     const res = await axiosRender.post('/api/auth/refreshtoken', { refreshToken }, config);
 
      if(res.statusText === 'OK') {
        setUserContext(oldValues => {
          return{...oldValues, token: res.data.token}
-       })
+       });
+
+       localStorage.setItem('refreshtoken', JSON.stringify(res.data.newRefreshToken))
+
      } else {
        setUserContext(oldValues => {
          return{...oldValues, token: null}
@@ -79,13 +84,19 @@ function App() {
      }
       // call refreshToken every 10 minutes to renew the authentication token.
       setTimeout(verifyUser, 10 * 60 * 1000)
-  },[setUserContext, userContext.token]);
+  },[setUserContext]);
 
   useEffect(() => {
+    if(!userContext.token || userContext.token === null) return;
     verifyUser();
-    // console.log('Inside UseEffect for verifyUser!!!');
+
+    console.log('Inside UseEffect for verifyUser!!!');
+
+    return () => {
+              
+    }
  
-  }, [verifyUser]);
+  }, [verifyUser, userContext.token]);
 
 // ==============================================
 

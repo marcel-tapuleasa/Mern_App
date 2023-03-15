@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {Typography, Box, List, ListItem, ListItemButton, ListItemText} from '@mui/material';
 import { UserContext } from '../../context/UserContext';
-import axios from 'axios';
+import axiosRender from '../../utils/axios';
 
 
 function UserDashboard(props) {
@@ -23,7 +23,7 @@ function UserDashboard(props) {
                 withCredentials: true
                 
               }
-         const res = await axios.get(`https://hoteltips.onrender.com/api/auth/userhotels/${userContext.details._id}`, config);    
+         const res = await axiosRender.get(`/api/auth/userhotels/${userContext.details._id}`, config);    
          setUserHotels(res.data) 
         };
         getHotelData();

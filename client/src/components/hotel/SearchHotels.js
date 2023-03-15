@@ -1,5 +1,5 @@
 import React, {useState, useContext} from 'react';
-import axios from 'axios';
+import axiosRender from '../../utils/axios';
 import {useNavigate} from 'react-router-dom';
 import Stack from '@mui/material/Stack';
 import SearchIcon from '@mui/icons-material/Search';
@@ -29,7 +29,7 @@ function SearchHotels (props) {
     const searchHotels = async (searchQuery) => {
         toggleSearchDone();
         if(search.trim()) {
-        const res = await axios.get(`https://hoteltips.onrender.com/hotels/search?searchQuery=${search || 'none'}`);
+        const res = await axiosRender.get(`/hotels/search?searchQuery=${search || 'none'}`);
         setUserContext(oldValues => {
             return { ...oldValues, searchHotels: res.data };
         })

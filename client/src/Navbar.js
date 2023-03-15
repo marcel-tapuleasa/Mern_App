@@ -15,7 +15,7 @@ import Button from '@mui/material/Button';
 import Tooltip, {tooltipClasses} from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { UserContext } from './context/UserContext';
-import axios from 'axios';
+import axiosRender from './utils/axios';
 import HomeIcon from '@mui/icons-material/Home';
 import Stack from '@mui/material/Stack';
 import Link from '@mui/material/Link';
@@ -80,18 +80,24 @@ const Navbar = () => {
     const config = {
 
       headers: {
-        "Content-Type": "application/json",
+        // "Content-Type": "application/json",
         "Authorization": `Bearer ${userContext.token}`,
         // "Cookie": 'refreshToken'
       },
       withCredentials: true
     };
 
-    axios.get('https://hoteltips.onrender.com/api/auth/logout', config,)
+    const refreshToken = JSON.parse(localStorage.getItem('refreshToken'));
+
+
+    axiosRender.get('/api/auth/logout', { refreshToken }, config,)
     .then(async response => {
       setUserContext(oldValues => {
         return { ...oldValues, token: null, details: {} }
-      })
+      });
+
+      localStorage.removeItem('refreshToken');
+      
       window.localStorage.setItem("logout", Date.now())
       navigate('/login')
     })

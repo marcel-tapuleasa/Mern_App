@@ -1,6 +1,6 @@
 import { useState } from "react";
 import {useNavigate} from 'react-router-dom';
-import axios from "axios";
+import axiosRender from "../../utils/axios";
 import './ForgotPassword.css';
 import Box from '@mui/material/Box';
 import Typography  from "@mui/material/Typography";
@@ -35,8 +35,8 @@ const ForgotPassword = () => {
     };
 
     // try {
-      const promise = axios.post(
-        "https://hoteltips.onrender.com/api/auth/forgotpassword",
+      const promise = axiosRender.post(
+        "/api/auth/forgotpassword",
         { email },
         config
       );

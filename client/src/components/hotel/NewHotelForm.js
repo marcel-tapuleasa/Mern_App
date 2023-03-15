@@ -1,5 +1,5 @@
 import React, { useContext} from 'react';
-import axios from 'axios';
+import axiosRender from '../../utils/axios';
 import {useNavigate} from 'react-router-dom';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
@@ -117,7 +117,7 @@ function NewHotelForm (props) {
       withCredentials: true
       
     }
-    const promise = axios.post('https://hoteltips.onrender.com/hotels/new', formData, config );
+    const promise = axiosRender.post('/hotels/new', formData, config );
 
     await toast.promise(promise, {
       pending: {

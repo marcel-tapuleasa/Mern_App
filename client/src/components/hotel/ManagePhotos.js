@@ -1,6 +1,6 @@
 import React, { useContext, useState} from "react";
 import {useNavigate} from 'react-router-dom';
-import axios from 'axios';
+import axiosRender from "../../utils/axios";
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
@@ -147,7 +147,7 @@ function ManagePhotos(props) {
           }
 
           
-        const promise = axios.put(`https://hoteltips.onrender.com/hotels/${id}/addphotos`, formData, config);
+        const promise = axiosRender.put(`/hotels/${id}/addphotos`, formData, config);
            
            
         toast.promise(promise, {
@@ -192,7 +192,7 @@ function ManagePhotos(props) {
         withCredentials: true
       };
 
-     const promise = axios.put(`https://hoteltips.onrender.com/hotels/${id}/deletephotos`, {deleteImages: checkedImagestoDelete}, config,  )
+     const promise = axiosRender.put(`/hotels/${id}/deletephotos`, {deleteImages: checkedImagestoDelete}, config,  )
       
      await toast.promise(promise, {
       pending: {

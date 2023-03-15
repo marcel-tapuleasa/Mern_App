@@ -1,6 +1,6 @@
 import React, {useState, useContext} from 'react';
 import { motion } from 'framer-motion';
-import axios from 'axios';
+import axiosRender from '../../utils/axios';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -34,23 +34,30 @@ const Dashboard = () => {
   const logout = () => {
 
     const config = {
-      withCredentials: true,
+
       headers: {
-        "Content-Type": "application/json",
+        // "Content-Type": "application/json",
         "Authorization": `Bearer ${userContext.token}`,
         // "Cookie": 'refreshToken'
-      }
+      },
+      withCredentials: true
     };
 
-    axios.get('https://hoteltips.onrender.com/api/auth/logout', config)
+    const refreshToken = JSON.parse(localStorage.getItem('refreshToken'));
+
+
+    axiosRender.get('/api/auth/logout', { refreshToken }, config,)
     .then(async response => {
       setUserContext(oldValues => {
         return { ...oldValues, token: null, details: {} }
-      })
-      window.localStorage.setItem("logout", Date.now());
+      });
+
+      localStorage.removeItem('refreshToken');
+      
+      window.localStorage.setItem("logout", Date.now())
       navigate('/login')
     })
-  };
+  }
 
  
 

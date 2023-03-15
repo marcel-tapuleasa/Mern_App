@@ -9,11 +9,13 @@ import PersonIcon from '@mui/icons-material/Person';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { UserContext } from './context/UserContext';
-import axios from 'axios';
+import axiosRender from './utils/axios';
 import { useNavigate } from 'react-router-dom';
 import Stack from '@mui/material/Stack';
 import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 import {styled} from '@mui/material/styles';
+
+
 
 const LightTooltip = styled(({ className, ...props }) => (
   <Tooltip {...props} classes={{ popper: className }} />
@@ -42,7 +44,7 @@ const Nav = () => {
           withCredentials: true
         };
     
-        axios.get('https://hoteltips.onrender.com/api/auth/logout', config,)
+        axiosRender.get('/api/auth/logout', config,)
         .then(async response => {
           setUserContext(oldValues => {
             return { ...oldValues, token: null, details: {} }

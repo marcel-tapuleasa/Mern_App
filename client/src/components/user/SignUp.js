@@ -13,7 +13,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import axios from 'axios';
+import axiosRender from '../../utils/axios';
 import {useNavigate} from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
@@ -55,11 +55,14 @@ export default function SignUp() {
     const {username, email, password} = values;
 
     try {
-      const {data} = await axios.post('https://hoteltips.onrender.com/api/auth/register', {username, email, password});
+      const {data} = await axiosRender.post('/api/auth/register', {username, email, password});
       
       setUserContext(oldValues => {
         return { ...oldValues, token: data.token }
-      })
+      });
+
+      localStorage.setItem('refreshToken', JSON.stringify(data.refreshToken));
+
 
       setSignUpSuccess(data.message);
       setTimeout(() => {
