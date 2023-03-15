@@ -277,11 +277,11 @@ exports.getUserHotels = async (req, res) => {
 
 // ===================================================================================================================
 
-const sendToken = (user, statusCode, res) => {
+const sendToken = async (user, statusCode, res) => {
     const token = user.getSignedJwtToken({ _id: user._id });
     const refreshToken = user.getSignedRefreshToken({ _id: user._id });
     user.refreshToken.push({refreshToken});
-    user.save();
+    await user.save();
 
     // ===========THIS WAS WITH COOKIES======================
 
