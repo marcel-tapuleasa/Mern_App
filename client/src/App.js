@@ -87,7 +87,7 @@ function App() {
   },[setUserContext]);
 
   useEffect(() => {
-    if(!userContext.token || userContext.token === null) return;
+    // if(!userContext.token || userContext.token === null) return;
     verifyUser();
 
     console.log('Inside UseEffect for verifyUser!!!');
