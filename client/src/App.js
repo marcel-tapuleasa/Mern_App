@@ -70,18 +70,19 @@ function App() {
      
      const res = await axiosRender.post('/api/auth/refreshtoken', { refreshToken }, config);
 
-     if(res.statusText === 'OK') {
+
+    //  if(res.statusText === 'OK') {
        setUserContext(oldValues => {
          return{...oldValues, token: res.data.token}
        });
 
        localStorage.setItem('refreshtoken', JSON.stringify(res.data.newRefreshToken))
 
-     } else {
-       setUserContext(oldValues => {
-         return{...oldValues, token: null}
-       })
-     }
+    //  } else {
+    //    setUserContext(oldValues => {
+    //      return{...oldValues, token: null}
+    //    })
+    //  }
       // call refreshToken every 10 minutes to renew the authentication token.
       setTimeout(verifyUser, 10 * 60 * 1000)
   },[setUserContext]);
@@ -96,7 +97,7 @@ function App() {
               
     }
  
-  }, [verifyUser, userContext.token]);
+  }, [verifyUser]);
 
 // ==============================================
 
