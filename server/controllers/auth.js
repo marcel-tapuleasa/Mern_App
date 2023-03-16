@@ -52,7 +52,7 @@ exports.login = async (req, res, next) => {
 
 
 
-exports.refreshToken = (req, res, next) => {
+exports.refreshToken = async (req, res, next) => {
 
     const { refreshToken } = req.body;
 
@@ -77,7 +77,7 @@ exports.refreshToken = (req, res, next) => {
         try {
             const payload = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
             const userId = payload.id;
-            User.findOne({_id: userId }).then(
+            await User.findOne({_id: userId }).then(
                 user => {
                     if(user) {
                         const tokenIndex = user.refreshToken.findIndex(
@@ -280,7 +280,7 @@ exports.getUserHotels = async (req, res) => {
 const sendToken = async (user, statusCode, res) => {
     const token = user.getSignedJwtToken({ _id: user._id });
     const refreshToken = user.getSignedRefreshToken({ _id: user._id });
-    user.refreshToken.push({refreshToken});
+    user.refreshToken.push(refreshToken);
     await user.save();
 
     // ===========THIS WAS WITH COOKIES======================
