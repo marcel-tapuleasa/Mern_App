@@ -22,8 +22,7 @@ connectDB();
 const app = express();
 
 const corsOptions = {
-  origin: 'http://localhost:3000',
-  // Access-Control-Allow-Origin: https://hotelstips.netlify.app,
+  origin: 'https://hoteltips2023.onrender.com',
   methods: ['GET', 'PUT', 'POST', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'Cookie', 'Access-Control-Allow-Origin'],
   exposedHeaders: ['Set-Cookie', 'Content-Type', 'Authorization', 'Access-Control-Allow-Origin'],
