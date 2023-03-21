@@ -49,15 +49,17 @@ function AddReviewForm(props) {
        
         const {body, rating, id} = values;
 
-        const config = {
-            headers: {
-              "Authorization": `Bearer ${userContext.token}`
-            }
+        // const config = {
+        //     headers: {
+        //       "Authorization": `Bearer ${userContext.token}`
+        //     }
             
-        };
+        // };
             
 
-        await axiosRender.post(`/hotels/${id}/reviews`, { body: body, rating: rating}, config)
+        await axiosRender.post(`/hotels/${id}/reviews`, { body: body, rating: rating}, {headers: {
+            "Authorization": `Bearer ${userContext.token}`
+          }})
         // console.log('AddReview');
         props.toggleUpdate();
         resetForm({values: ''})

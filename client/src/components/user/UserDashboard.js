@@ -13,14 +13,20 @@ function UserDashboard(props) {
 
     useEffect(() => {
         async function getHotelData() {
-            const config = {
-        
-                headers: {
-                  "Authorization": `Bearer ${userContext.token}`,
-                }                
-              };
 
-         const res = await axiosRender.get(`/api/auth/userhotels/${userContext.details._id}`, null, config);    
+
+            // const config = {
+        
+            //     headers: {
+            //       "Authorization": `Bearer ${userContext.token}`,
+            //     }                
+            //   };
+
+
+            
+         const res = await axiosRender.get(`/api/auth/userhotels/${userContext.details._id}`, {headers: {
+            "Authorization": `Bearer ${userContext.token}`,
+          }} );    
          setUserHotels(res.data) 
         };
         getHotelData();

@@ -31,14 +31,20 @@ function Review (props) {
 
     const deleteReviews = async () =>{
 
-        const config = {
+        // const config = {
+            
+        //     headers: {
+        //       "Authorization": `Bearer ${userContext.token}`
+        //     }
+        // };
+
+        await axiosRender.delete(`/hotels/${hotelId}/reviews/${props.review._id}`, {
             
             headers: {
               "Authorization": `Bearer ${userContext.token}`
             }
-        };
+        });
 
-        await axiosRender.delete(`/hotels/${hotelId}/reviews/${props.review._id}`, null, config);
         props.toggleUpdate();
     }
 

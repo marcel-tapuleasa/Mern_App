@@ -20,13 +20,18 @@ function App() {
 
 
   const fetchUserDetails = useCallback(async () => {
-    const config = {
+
+  //   const config = {
+  //     headers: {
+  //          "Authorization": `Bearer ${userContext.token}`,
+  //       },
+  // }
+
+    const res = await axiosRender.get('/api/users/me', {
       headers: {
            "Authorization": `Bearer ${userContext.token}`,
         },
-  }
-
-    const res = await axiosRender.get('/api/users/me', null, config);
+  });
             setUserContext(oldValues => {
                 return { ...oldValues, details: res.data };
             });
@@ -53,14 +58,18 @@ function App() {
   const verifyUser = useCallback(async () => {
 
 
-    const config = {
+  //   const config = {
+  //     headers: {
+  //          "Authorization": `Bearer ${userContext.token}`,
+  //       },
+  // }
+
+     
+     const res = await axiosRender.post('/api/auth/refreshtoken', {
       headers: {
            "Authorization": `Bearer ${userContext.token}`,
         },
-  }
-
-     
-     const res = await axiosRender.post('/api/auth/refreshtoken', null, config);
+  });
 
 
     //  if(res.statusText === 'OK') {

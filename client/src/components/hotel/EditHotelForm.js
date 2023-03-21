@@ -74,18 +74,21 @@ const {title, location, description, price, id, classes, toggle} = props;
       
 
 
-        const config = {
-          headers: {
-              "Content-Type": "application/json",
-               "Authorization": `Bearer ${userContext.token}`,
-            },
-      }
+      //   const config = {
+      //     headers: {
+      //         "Content-Type": "application/json",
+      //          "Authorization": `Bearer ${userContext.token}`,
+      //       },
+      // }
 
         const promise = axiosRender.put(`/hotels/${id}/edit`, 
                                       { title: values.title, 
                                         location: values.location, 
                                         description: values.description, 
-                                        price: values.price}, config)
+                                        price: values.price}, { headers: {
+                                          "Content-Type": "application/json",
+                                           "Authorization": `Bearer ${userContext.token}`,
+                                        }})
         toast.promise(promise, {
           pending: {
             render: 'Updating details...',

@@ -60,16 +60,19 @@ function UserPhoto(props) {
 
         formData.append('avatarImage', selectedFile);
 
-        const config = {
-            headers: {
-            //   "Content-Type": 'multiform/form-data',
-              "Authorization": `Bearer ${userContext.token}`,
-            },
-        
-            
-          }
+        // const config = {
+        //     headers: {
+        //       "Content-Type": 'multiform/form-data',
+        //       "Authorization": `Bearer ${userContext.token}`,
+        //     } 
+        //   }
 
-        const res = axiosRender.put(`/api/auth/useravatarimage/${userContext.details._id}`, formData, config );
+        const res = axiosRender.put(`/api/auth/useravatarimage/${userContext.details._id}`, formData, {
+            headers: {
+              "Content-Type": 'multiform/form-data',
+              "Authorization": `Bearer ${userContext.token}`,
+            } 
+          } );
 
         await toast.promise(res, {
             pending: {

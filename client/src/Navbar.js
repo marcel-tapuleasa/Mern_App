@@ -77,15 +77,20 @@ const Navbar = () => {
 
   const logout = () => {
 
-    const config = {
+    // const config = {
+
+    //   headers: {
+    //     "Authorization": `Bearer ${userContext.token}`,
+    //   },
+    // };
+
+
+    axiosRender.get('/api/auth/logout', {
 
       headers: {
         "Authorization": `Bearer ${userContext.token}`,
       },
-    };
-
-
-    axiosRender.get('/api/auth/logout', null, config,)
+    })
     .then(async response => {
       setUserContext(oldValues => {
         return { ...oldValues, token: null, details: {} }

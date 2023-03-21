@@ -108,13 +108,18 @@ function NewHotelForm (props) {
 
 
 
-    const config = {
+    // const config = {
+    //   headers: {
+    //     "Authorization": `Bearer ${userContext.token}`,
+    //   }
+      
+    // }
+
+    
+    const promise = axiosRender.post('/hotels/new', formData, {
       headers: {
         "Authorization": `Bearer ${userContext.token}`,
-      }
-      
-    }
-    const promise = axiosRender.post('/hotels/new', formData, config );
+      }} );
 
     await toast.promise(promise, {
       pending: {

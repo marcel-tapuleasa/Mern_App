@@ -136,15 +136,20 @@ function ManagePhotos(props) {
         formData.append('price', price);
            
 
-        const config = {
-            headers: {
-              "Authorization": `Bearer ${userContext.token}`,
-            }
+        // const config = {
+        //     headers: {
+        //       "Authorization": `Bearer ${userContext.token}`,
+        //     }
             
-          }
+        //   }
 
           
-        const promise = axiosRender.put(`/hotels/${id}/addphotos`, formData, config);
+        const promise = axiosRender.put(`/hotels/${id}/addphotos`, formData, {
+          headers: {
+            "Authorization": `Bearer ${userContext.token}`,
+          }
+          
+        });
            
            
         toast.promise(promise, {
@@ -180,14 +185,18 @@ function ManagePhotos(props) {
     
     const deleteImages = async (e) => {
       e.preventDefault();
-      const config = {
+      
+      // const config = {
+      //   headers: {
+      //     "Authorization": `Bearer ${userContext.token}`,
+      //   }
+      // };
+
+     const promise = axiosRender.put(`/hotels/${id}/deletephotos`, {deleteImages: checkedImagestoDelete}, {
         headers: {
           "Authorization": `Bearer ${userContext.token}`,
-          // "Cookie": 'refreshToken' 
         }
-      };
-
-     const promise = axiosRender.put(`/hotels/${id}/deletephotos`, {deleteImages: checkedImagestoDelete}, config)
+      })
       
      await toast.promise(promise, {
       pending: {

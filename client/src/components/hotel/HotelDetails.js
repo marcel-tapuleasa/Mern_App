@@ -92,14 +92,13 @@ function HotelDetails (props) {
         // console.log('1st UseEffect');
         async function getData() {
 
-          const config = {
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${userContext.token}`,
-              }
-          }
+         
 
-            let res = await axiosRender.get(`/hotels/${id}`, null, config);
+            let res = await axiosRender.get(`/hotels/${id}`, {
+                  headers: {
+                      "Authorization": `Bearer ${userContext.token}`,
+                    }
+            });
             setDetails(prev => res.data);
             setAuthor(res.data.author.username);
         
@@ -114,16 +113,21 @@ function HotelDetails (props) {
 
     const removeHotel = async (id) => {
 
-      const config = {
+      // const config = {
+      //   headers: {
+      //       "Content-Type": "application/json",
+      //       "Authorization": `Bearer ${userContext.token}`,
+
+      //     },
+         
+      // }
+
+       const promise =  axiosRender.delete(`/hotels/${id}`, {_id:id}, {
         headers: {
-            "Content-Type": "application/json",
             "Authorization": `Bearer ${userContext.token}`,
 
-          },
-         
-      }
-
-       const promise =  axiosRender.delete(`/hotels/${id}`, {_id:id}, config);
+          }});
+          
        toast.promise(promise, {
         pending: {
           render: 'Deleting your hotel...',
