@@ -1,5 +1,7 @@
 const Hotel = require('../models/hotels');
 const Review = require('../models/reviews');
+const { authorize } = require ('passport');
+
 
 module.exports.createReview = async (req, res) => {
     const hotel = await Hotel.findById(req.params.id);

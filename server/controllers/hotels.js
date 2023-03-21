@@ -7,6 +7,8 @@ const mapBoxToken = process.env.MAPBOX_TOKEN;
 const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
 const geocoder = mbxGeocoding({ accessToken: mapBoxToken });
 
+const { authorize } = require('passport');
+
 
 
 
