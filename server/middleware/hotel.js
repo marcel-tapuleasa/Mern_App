@@ -1,5 +1,7 @@
 const Hotel = require('../models/hotels');
 const ExpressError = require('../utils/ExpressError');
+const { authorize } = require('passport');
+
 
 
 module.exports.isAuthor = async (req, res, next) => {

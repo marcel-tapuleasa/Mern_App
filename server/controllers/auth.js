@@ -10,7 +10,7 @@ const { cloudinary } = require('../cloudinary');
 const multer = require('multer');
 const { storage } = require('../cloudinary');
 // const hotels = require('../models/hotels');
-// const { authorize } = require('passport');
+const { authorize } = require('passport');
 const upload = multer({ storage });
 
 
@@ -54,25 +54,10 @@ exports.login = async (req, res, next) => {
 
 exports.refreshToken = (req, res, next) => {
 
-    const { refreshToken } = req.body;
+          const { signedCookies = {} } = req
+          const { refreshToken } = signedCookies
 
-    if(!refreshToken)
-    {
-        return next(new ExpressError('Unauthorized Session', 401)); 
-        }
-
-
-            // =======THIS WAS WITH COOKIES============================
-
-        //   const { signedCookies = {} } = req
-        //   const { refreshToken } = signedCookies
-
-        // // const { refreshToken } = req.cookies;
-
-
-            // console.log(`This is the refreshToken in cookie: ${refreshToken}`);
-
-            // if(refreshToken) {
+            if(refreshToken) {
 
         try {
             const payload = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
@@ -101,21 +86,19 @@ exports.refreshToken = (req, res, next) => {
                                 }
                                 else {
 
-                                    // ===== THIS WAS WITH COOKIES==========
-
-                                    // res.cookie('refreshToken', newRefreshToken, {
-                                    //     httpOnly: true,
-                                    //     signed: true,
-                                    //     sameSite: "None",
-                                    //     secure: true,
-                                    //     domain: 'https://hotelstips.netlify.app',
-                                    //     maxAge: 60 * 60 * 24 * 30 * 1000
-                                    // })
+                                    res.cookie('refreshToken', newRefreshToken, {
+                                        httpOnly: true,
+                                        signed: true,
+                                        // sameSite: "None",
+                                        // secure: true,
+                                        // domain: 'https://hotelstips.netlify.app',
+                                        maxAge: 60 * 60 * 24 * 30 * 1000
+                                    })
 
 
                                     res.status(200).json({
                                         succes: true,
-                                        token, newRefreshToken
+                                        token
                                     })
                                 }
                             })
@@ -128,27 +111,15 @@ exports.refreshToken = (req, res, next) => {
         } catch(err) {
             return next(new ExpressError('Unauthorized 3rd', 401))
         }
-    // } else {
-    //     return next(new ExpressError('Unauthorized', 401))
-    // }
+    } else {
+        return next(new ExpressError('Unauthorized, no refreshToken', 401))
+    }
 }
 
 exports.logout =  (protect, (req, res, next) => {
 
-    const { refreshToken } = req.body;
-
-    if(!refreshToken)
-    {
-        return next(new ExpressError('Unauthorized Session', 401)); 
-        }
-
-
-
-    // ===========THIS WAS WITH COOKIES===============
-    // const { signedCookies = {} } = req
-    // const { refreshToken } = signedCookies;
-
-    // const { refreshToken } = req.cookies;
+    const { signedCookies = {} } = req;
+    const { refreshToken } = signedCookies;
 
 
     const payload = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
@@ -170,7 +141,7 @@ exports.logout =  (protect, (req, res, next) => {
             return next(new ExpressError(err, 500))
           } else {
 
-            // res.clearCookie("refreshToken")  =======WITH COOKIES
+            res.clearCookie("refreshToken");
 
             res.send({ success: true })
           }
@@ -283,22 +254,21 @@ const sendToken = (user, statusCode, res) => {
     user.refreshToken.push({refreshToken});
     user.save();
 
-    // ===========THIS WAS WITH COOKIES======================
-
-    // res.cookie('refreshToken', refreshToken, {
-    //     httpOnly: true,
-    //     signed: true,
-    //     sameSite: "None",
-    //     secure: true,
-    //     domain: 'https://hotelstips.netlify.app',
-    //     maxAge: 60 * 60 * 24 * 30 * 1000,
+    
+    res.cookie('refreshToken', refreshToken, {
+        httpOnly: true,
+        signed: true,
+        // sameSite: "None",
+        // secure: true,
+        // domain: 'https://hotelstips.netlify.app',
+        maxAge: 60 * 60 * 24 * 30 * 1000,
         
-    // })
+    })
 
 
     res.status(statusCode).json({
         succes: true,
-        token, refreshToken, user
+        token, user
     })
 }
 

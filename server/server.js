@@ -5,7 +5,7 @@ if (process.env.NODE_ENV !== "production") {
 const express = require('express');
 const connectDB = require('./config/db');
 const errorHandler = require('./middleware/error');
-// const cookieParser = require('cookie-parser');
+const cookieParser = require('cookie-parser');
 const mongoSanitize = require('express-mongo-sanitize');
 // const helmet = require("helmet");
 
@@ -22,7 +22,7 @@ connectDB();
 const app = express();
 
 const corsOptions = {
-  origin: ['https://hotelstips.netlify.app'],
+  origin: ['http://localhost:3000'],
   // Access-Control-Allow-Origin: https://hotelstips.netlify.app,
   methods: ['GET', 'PUT', 'POST', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'Cookie', 'Access-Control-Allow-Origin'],
@@ -58,14 +58,13 @@ app.use(express.static('public'));
 
 app.use(express.urlencoded({extended: true}));
 
-// app.use(cookieParser(
-//   process.env.COOKIE_SECRET
-//   ));
+app.use(cookieParser(
+  process.env.COOKIE_SECRET
+  ));
 
 app.use(
   mongoSanitize({
     replaceWith: '_',
-    allowDots: true
   }),
 );
 
