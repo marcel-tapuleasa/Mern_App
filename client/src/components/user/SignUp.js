@@ -61,8 +61,6 @@ export default function SignUp() {
         return { ...oldValues, token: data.token }
       });
 
-      localStorage.setItem('refreshToken', JSON.stringify(data.refreshToken));
-
 
       setSignUpSuccess(data.message);
       setTimeout(() => {

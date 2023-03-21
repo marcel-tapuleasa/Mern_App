@@ -80,26 +80,22 @@ const Navbar = () => {
     const config = {
 
       headers: {
-        // "Content-Type": "application/json",
         "Authorization": `Bearer ${userContext.token}`,
-        // "Cookie": 'refreshToken'
       },
-      withCredentials: true
     };
 
-    const refreshToken = JSON.parse(localStorage.getItem('refreshToken'));
 
-
-    axiosRender.get('/api/auth/logout', { refreshToken }, config,)
+    axiosRender.get('/api/auth/logout', null, config,)
     .then(async response => {
       setUserContext(oldValues => {
         return { ...oldValues, token: null, details: {} }
       });
-
-      localStorage.removeItem('refreshToken');
       
-      window.localStorage.setItem("logout", Date.now())
-      navigate('/login')
+      window.localStorage.setItem("logout", Date.now());
+      
+      setTimeout(() => {
+        navigate('/login')
+        }, 1000);
     })
   }
 

@@ -36,6 +36,8 @@ const theme = createTheme();
 
 export default function SignIn() {
 
+  
+
   const [userContext, setUserContext] = useContext(UserContext);
   const [error, setError] = useState('');
 
@@ -48,12 +50,7 @@ export default function SignIn() {
 
     const {email, password} = values;
 
-  //   const config = {
-  //     headers: {
-  //         "Content-Type": "application/json",
-  //          Authorization: `Bearer ${userContext.token}`,
-  //       },
-  // }
+ 
 
     try {
       const { data } = await axiosRender.post('/api/auth/login', {email, password});
@@ -62,10 +59,8 @@ export default function SignIn() {
         return { ...oldValues, token: data.token, details: data.user}
       })
 
-      localStorage.setItem('refreshToken', JSON.stringify(data.refreshToken));
 
       navigate('/hotels');
-      console.log(userContext.token)
 
     } catch (error) {
       setError(error.response.data.error);

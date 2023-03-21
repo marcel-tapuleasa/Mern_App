@@ -138,11 +138,8 @@ function ManagePhotos(props) {
 
         const config = {
             headers: {
-              "Content-Type": 'multiform/form-data',
               "Authorization": `Bearer ${userContext.token}`,
-              // "Cookie": 'refreshToken'
-            },
-            withCredentials: true
+            }
             
           }
 
@@ -185,14 +182,12 @@ function ManagePhotos(props) {
       e.preventDefault();
       const config = {
         headers: {
-          "Content-Type": "application/json",
           "Authorization": `Bearer ${userContext.token}`,
           // "Cookie": 'refreshToken' 
-        },
-        withCredentials: true
+        }
       };
 
-     const promise = axiosRender.put(`/hotels/${id}/deletephotos`, {deleteImages: checkedImagestoDelete}, config,  )
+     const promise = axiosRender.put(`/hotels/${id}/deletephotos`, {deleteImages: checkedImagestoDelete}, config)
       
      await toast.promise(promise, {
       pending: {

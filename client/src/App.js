@@ -22,11 +22,8 @@ function App() {
   const fetchUserDetails = useCallback(async () => {
     const config = {
       headers: {
-          // "Content-Type": "application/json",
            "Authorization": `Bearer ${userContext.token}`,
-          //  "Cookie": 'refreshToken'
         },
-      withCredentials: true  
   }
 
     const res = await axiosRender.get('/api/users/me', null, config);
@@ -38,9 +35,9 @@ function App() {
 }, [setUserContext, userContext.token]);
 
   useEffect(() => {
-    console.log('useEffect for Profile!!!')
+    // console.log('useEffect for Profile!!!')
     // fetch only when user details are not present
-        if(!userContext.token || userContext.token === null) return;                   
+        if(!userContext.token) return;                   
         if (!userContext.details) {
              fetchUserDetails();
              return () => {
@@ -55,28 +52,21 @@ function App() {
 
   const verifyUser = useCallback(async () => {
 
-    // if(!userContext.token || userContext.token === null) {return;};
 
     const config = {
       headers: {
-          // "Content-Type": "application/json",
            "Authorization": `Bearer ${userContext.token}`,
-          //  "Cookie": 'refreshToken'
         },
-      withCredentials: true  
   }
 
-  const refreshToken = JSON.parse(localStorage.getItem('refreshToken'));
      
-     const res = await axiosRender.post('/api/auth/refreshtoken', { refreshToken }, config);
+     const res = await axiosRender.post('/api/auth/refreshtoken', null, config);
 
 
     //  if(res.statusText === 'OK') {
        setUserContext(oldValues => {
          return{...oldValues, token: res.data.token}
        });
-
-       localStorage.setItem('refreshtoken', JSON.stringify(res.data.newRefreshToken))
 
     //  } else {
     //    setUserContext(oldValues => {
@@ -91,11 +81,11 @@ function App() {
     // if(!userContext.token || userContext.token === null) return;
     verifyUser();
 
-    console.log('Inside UseEffect for verifyUser!!!');
+    // console.log('Inside UseEffect for verifyUser!!!');
 
-    return () => {
+    // return () => {
               
-    }
+    // }
  
   }, [verifyUser]);
 

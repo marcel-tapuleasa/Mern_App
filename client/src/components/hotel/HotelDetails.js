@@ -96,11 +96,10 @@ function HotelDetails (props) {
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${userContext.token}`,
-                // "Cookie": 'refreshToken'
-              },
-            withCredentials: true  
+              }
           }
-            let res = await axiosRender.get(`/hotels/${id}`, {config});
+
+            let res = await axiosRender.get(`/hotels/${id}`, null, config);
             setDetails(prev => res.data);
             setAuthor(res.data.author.username);
         
@@ -119,11 +118,9 @@ function HotelDetails (props) {
         headers: {
             "Content-Type": "application/json",
             "Authorization": `Bearer ${userContext.token}`,
-            // "Access-Control-Allow-Origin:": 'https://hotelstips.netlify.app'
 
-            // "Cookie": 'refreshToken'
           },
-        withCredentials: true  
+         
       }
 
        const promise =  axiosRender.delete(`/hotels/${id}`, {_id:id}, config);

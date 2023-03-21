@@ -71,27 +71,14 @@ const {title, location, description, price, id, classes, toggle} = props;
 
     const editHotel = (values) => {
         const {id} = values;
-
-        // const formData = new FormData();
-
-        // // formData.append('images', images);
-        // values.images.forEach((image, index) => {formData.append('images', values.images[index])});
-        // formData.append('title', title);
-        // formData.append('location', location);
-        // formData.append('description', description);
-        // formData.append('price', price);
-       
-    
+      
 
 
         const config = {
           headers: {
               "Content-Type": "application/json",
                "Authorization": `Bearer ${userContext.token}`,
-               "Access-Control-Allow-Origin:": 'https://hotelstips.netlify.app'
-              //  "Cookie": 'refreshToken'
             },
-          withCredentials: true  
       }
 
         const promise = axiosRender.put(`/hotels/${id}/edit`, 

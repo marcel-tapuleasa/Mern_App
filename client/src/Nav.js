@@ -37,20 +37,23 @@ const Nav = () => {
         const config = {
 
           headers: {
-            "Content-Type": "application/json",
             "Authorization": `Bearer ${userContext.token}`,
-            // "Cookie": 'refreshToken'
           },
-          withCredentials: true
         };
+
+
     
-        axiosRender.get('/api/auth/logout', config,)
+        axiosRender.get('/api/auth/logout', null, config,)
         .then(async response => {
           setUserContext(oldValues => {
             return { ...oldValues, token: null, details: {} }
-          })
+          });
+
+          
           window.localStorage.setItem("logout", Date.now())
-          navigate('/login')
+          setTimeout(() => {
+            navigate('/login')
+            }, 1000);
         })
       }
     const [userContext, setUserContext] = React.useContext(UserContext);
@@ -74,3 +77,4 @@ const Nav = () => {
 }
 
 export default Nav;
+

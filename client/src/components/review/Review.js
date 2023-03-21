@@ -34,11 +34,8 @@ function Review (props) {
         const config = {
             
             headers: {
-              "Content-Type": 'application/json',
-              "Authorization": `Bearer ${userContext.token}`,
-            //   "Cookie": 'refreshToken'
-            },
-            withCredentials: true
+              "Authorization": `Bearer ${userContext.token}`
+            }
         };
 
         await axiosRender.delete(`/hotels/${hotelId}/reviews/${props.review._id}`, null, config);

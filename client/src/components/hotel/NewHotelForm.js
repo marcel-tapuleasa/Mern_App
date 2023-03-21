@@ -110,11 +110,8 @@ function NewHotelForm (props) {
 
     const config = {
       headers: {
-        "Content-Type": "multipart/form-data",
         "Authorization": `Bearer ${userContext.token}`,
-        // "Cookie": 'refreshToken'
-      },
-      withCredentials: true
+      }
       
     }
     const promise = axiosRender.post('/hotels/new', formData, config );

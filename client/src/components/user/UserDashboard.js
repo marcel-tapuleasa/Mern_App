@@ -16,14 +16,11 @@ function UserDashboard(props) {
             const config = {
         
                 headers: {
-                  "Content-Type": 'application/json',
                   "Authorization": `Bearer ${userContext.token}`,
-                //   "Cookie": 'refreshToken'  
-                },
-                withCredentials: true
-                
-              }
-         const res = await axiosRender.get(`/api/auth/userhotels/${userContext.details._id}`, config);    
+                }                
+              };
+
+         const res = await axiosRender.get(`/api/auth/userhotels/${userContext.details._id}`, null, config);    
          setUserHotels(res.data) 
         };
         getHotelData();

@@ -23,9 +23,6 @@ function HotelList(props) {
     const[searchDone, setSearchDone] = useState(false)
 
     const navigate = useNavigate();
-
-
-    // const { classes} = props;
     
 
 
